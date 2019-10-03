@@ -17,5 +17,6 @@ public class MainUI extends UI {
         layout.addComponent(new Label("Main UI"));
 
         setContent(layout);
+        System.out.println("Test");
     }
 }
