@@ -8,6 +8,15 @@ public class Patient
     private String patronymic;
     private String phone;
 
+    public Patient(Long id, String firstName, String lastName, String patronymic, String phone)
+    {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.phone = phone;
+    }
+
     public Long getId()
     {
         return id;

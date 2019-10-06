@@ -5,6 +5,12 @@ public class PrescriptionPriority
     private Long id;
     private String name;
 
+    public PrescriptionPriority(Long id, String name)
+    {
+        this.id = id;
+        this.name = name;
+    }
+
     public Long getId()
     {
         return id;

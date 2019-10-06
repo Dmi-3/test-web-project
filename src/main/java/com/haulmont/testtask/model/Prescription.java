@@ -11,6 +11,17 @@ public class Prescription
     private Date creatingDate;
     private PrescriptionPriority prescriptionPriority;
 
+    public Prescription(Long id, String description, Patient patient, Doctor doctor, Date creatingDate,
+                        PrescriptionPriority prescriptionPriority)
+    {
+        this.id = id;
+        this.description = description;
+        this.patient = patient;
+        this.doctor = doctor;
+        this.creatingDate = creatingDate;
+        this.prescriptionPriority = prescriptionPriority;
+    }
+
     public Long getId()
     {
         return id;

@@ -5,6 +5,12 @@ public class Specialization
     private Long id;
     private String name;
 
+    public Specialization(Long id, String name)
+    {
+        this.id = id;
+        this.name = name;
+    }
+
     public Long getId()
     {
         return id;
