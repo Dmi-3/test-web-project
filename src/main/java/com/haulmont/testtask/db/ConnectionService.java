@@ -24,6 +24,7 @@ public class ConnectionService
         catch (SQLException e)
         {
             LOG.error("Error occured during connecting to DataBase.");
+            return null;
         }
 
         return connection;
