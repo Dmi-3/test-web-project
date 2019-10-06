@@ -1,7 +1,8 @@
 package com.haulmont.testtask.db.dao;
 
 import com.haulmont.testtask.db.ConnectionService;
-import com.haulmont.testtask.model.Doctor;
+import com.haulmont.testtask.model.Patient;
+import com.haulmont.testtask.model.Patient;
 import com.haulmont.testtask.model.Specialization;
 import org.apache.log4j.Logger;
 
@@ -13,18 +14,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class DoctorDao implements ObjectDao<Doctor>
+public class PatientDao implements ObjectDao<Patient>
 {
-    private static final Logger LOG = Logger.getLogger(DoctorDao.class);
-    private SpecializationDao specializationDao;
-
-    public DoctorDao(SpecializationDao specializationDao)
-    {
-        this.specializationDao = specializationDao;
-    }
+    private static final Logger LOG = Logger.getLogger(PatientDao.class);
 
     @Override
-    public Collection<Doctor> getAll()
+    public Collection<Patient> getAll()
     {
         Connection connection = new ConnectionService().getConnection();
         if (connection == null)
@@ -32,18 +27,18 @@ public class DoctorDao implements ObjectDao<Doctor>
             return Collections.emptyList();
         }
 
-        ArrayList<Doctor> doctors = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM doctors"))
+        ArrayList<Patient> patients = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM patients"))
         {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
-                Doctor doctor = parseResultSet(resultSet);
-                if (doctor == null)
+                Patient patient = parseResultSet(resultSet);
+                if (patient == null)
                 {
                     continue;
                 }
-                doctors.add(doctor);
+                patients.add(patient);
             }
         }
         catch (SQLException ex)
@@ -51,11 +46,11 @@ public class DoctorDao implements ObjectDao<Doctor>
             LOG.error("Error occured during getting info from DataBase.", ex);
         }
 
-        return doctors.isEmpty() ? Collections.emptyList() : doctors;
+        return patients.isEmpty() ? Collections.emptyList() : patients;
     }
 
     @Override
-    public Doctor getById(Long id)
+    public Patient getById(Long id)
     {
         Connection connection = new ConnectionService().getConnection();
         if (connection == null)
@@ -64,7 +59,7 @@ public class DoctorDao implements ObjectDao<Doctor>
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("SELECT * FROM doctors WHERE id = %d", id)))
+                String.format("SELECT * FROM patients WHERE id = %d", id)))
         {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
@@ -80,7 +75,7 @@ public class DoctorDao implements ObjectDao<Doctor>
         return null;
     }
 
-    private Doctor parseResultSet(ResultSet resultSet)
+    private Patient parseResultSet(ResultSet resultSet)
     {
         try
         {
@@ -88,11 +83,9 @@ public class DoctorDao implements ObjectDao<Doctor>
             String firstName = resultSet.getString("first_Name");
             String lastName = resultSet.getString("last_Name");
             String patronymic = resultSet.getString("patronymic");
+            String phone = resultSet.getString("phone");
 
-            Long specializationId = resultSet.getLong("specialization_id");
-            Specialization specialization = specializationDao.getById(specializationId);
-
-            return new Doctor(id, firstName, lastName, patronymic, specialization);
+            return new Patient(id, firstName, lastName, patronymic, phone);
         }
         catch (SQLException ex)
         {
@@ -103,17 +96,17 @@ public class DoctorDao implements ObjectDao<Doctor>
     }
 
     @Override
-    public boolean create(Doctor doctor)
+    public boolean create(Patient patient)
     {
         Connection connection = new ConnectionService().getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("INSERT INTO doctors(first_name, last_name, patronymic, specialization_id) values ('%s', '%s', '%s', %d)",
-                        doctor.getFirstName(), doctor.getLastName(), doctor.getPatronymic(), doctor.getSpecialization().getId())))
+                String.format("INSERT INTO patients(first_name, last_name, patronymic, phone) values ('%s', '%s', '%s', '%s')",
+                        patient.getFirstName(), patient.getLastName(), patient.getPatronymic(), patient.getPhone())))
         {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
             {
-                doctor.setId(resultSet.getLong("id"));
+                patient.setId(resultSet.getLong("id"));
                 return true;
             }
         }
@@ -125,12 +118,12 @@ public class DoctorDao implements ObjectDao<Doctor>
     }
 
     @Override
-    public boolean update(Doctor doctor)
+    public boolean update(Patient patient)
     {
         Connection connection = new ConnectionService().getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("UPDATE doctors SET first_name = '%s', last_name = '%s', patronymic = '%s', specialization_id = %d WHERE id = %d)",
-                        doctor.getFirstName(), doctor.getLastName(), doctor.getPatronymic(), doctor.getSpecialization().getId(), doctor.getId())))
+                String.format("UPDATE patients SET first_name = '%s', last_name = '%s', patronymic = '%s', phone = '%s' WHERE id = %d)",
+                        patient.getFirstName(), patient.getLastName(), patient.getPatronymic(), patient.getPhone(), patient.getId())))
         {
             return preparedStatement.execute();
         }
@@ -142,11 +135,11 @@ public class DoctorDao implements ObjectDao<Doctor>
     }
 
     @Override
-    public boolean delete(Doctor doctor)
+    public boolean delete(Patient patient)
     {
         Connection connection = new ConnectionService().getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("DELETE FROM doctors WHERE id = '%s')", doctor.getId())))
+                String.format("DELETE FROM patients WHERE id = '%s')", patient.getId())))
         {
             return preparedStatement.execute();
         }

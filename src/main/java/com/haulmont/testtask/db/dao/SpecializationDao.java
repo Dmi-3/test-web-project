@@ -19,19 +19,19 @@ public class SpecializationDao implements ObjectDao<Specialization>
     }
 
     @Override
-    public boolean create(Specialization object)
+    public boolean create(Specialization specialization)
     {
         return false;
     }
 
     @Override
-    public boolean update(Specialization object)
+    public boolean update(Specialization specialization)
     {
         return false;
     }
 
     @Override
-    public boolean delete(Specialization object)
+    public boolean delete(Specialization specialization)
     {
         return false;
     }
