@@ -1,7 +1,7 @@
 package com.haulmont.testtask.db.dao;
 
 import com.haulmont.testtask.db.ConnectionService;
-import com.haulmont.testtask.model.Patient;
+import com.haulmont.testtask.model.PrescriptionPriority;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class PatientDao implements ObjectDao<Patient>
+public class PrescriptionPriorityDao implements ObjectDao<PrescriptionPriority>
 {
-    private static final Logger LOG = Logger.getLogger(PatientDao.class);
+    private static final Logger LOG = Logger.getLogger(PrescriptionPriorityDao.class);
 
     @Override
-    public Collection<Patient> getAll()
+    public Collection<PrescriptionPriority> getAll()
     {
         Connection connection = new ConnectionService().getConnection();
         if (connection == null)
@@ -25,18 +25,18 @@ public class PatientDao implements ObjectDao<Patient>
             return Collections.emptyList();
         }
 
-        ArrayList<Patient> patients = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM patients"))
+        ArrayList<PrescriptionPriority> prescriptionPriorities = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM prescription_priorities"))
         {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
             {
-                Patient patient = parseResultSet(resultSet);
-                if (patient == null)
+                PrescriptionPriority prescriptionPriority = parseResultSet(resultSet);
+                if (prescriptionPriority == null)
                 {
                     continue;
                 }
-                patients.add(patient);
+                prescriptionPriorities.add(prescriptionPriority);
             }
         }
         catch (SQLException ex)
@@ -44,11 +44,11 @@ public class PatientDao implements ObjectDao<Patient>
             LOG.error("Error occured during getting info from DataBase.", ex);
         }
 
-        return patients.isEmpty() ? Collections.emptyList() : patients;
+        return prescriptionPriorities.isEmpty() ? Collections.emptyList() : prescriptionPriorities;
     }
 
     @Override
-    public Patient getById(Long id)
+    public PrescriptionPriority getById(Long id)
     {
         Connection connection = new ConnectionService().getConnection();
         if (connection == null)
@@ -56,8 +56,7 @@ public class PatientDao implements ObjectDao<Patient>
             return null;
         }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("SELECT * FROM patients WHERE id = %d", id)))
+        try (PreparedStatement preparedStatement = connection.prepareStatement(String.format("SELECT * FROM prescription_priorities WHERE id = %d", id)))
         {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
@@ -73,17 +72,13 @@ public class PatientDao implements ObjectDao<Patient>
         return null;
     }
 
-    private Patient parseResultSet(ResultSet resultSet)
+    private PrescriptionPriority parseResultSet(ResultSet resultSet)
     {
         try
         {
             Long id = resultSet.getLong("id");
-            String firstName = resultSet.getString("first_Name");
-            String lastName = resultSet.getString("last_Name");
-            String patronymic = resultSet.getString("patronymic");
-            String phone = resultSet.getString("phone");
-
-            return new Patient(id, firstName, lastName, patronymic, phone);
+            String name = resultSet.getString("name");
+            return new PrescriptionPriority(id, name);
         }
         catch (SQLException ex)
         {
@@ -94,17 +89,16 @@ public class PatientDao implements ObjectDao<Patient>
     }
 
     @Override
-    public boolean create(Patient patient)
+    public boolean create(PrescriptionPriority prescriptionPriority)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlUpdateRequest = String.format("INSERT INTO patients(first_name, last_name, patronymic, phone) values ('%s', '%s', '%s', '%s')",
-                patient.getFirstName(), patient.getLastName(), patient.getPatronymic(), patient.getPhone());
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
+        String sqlCreateRequest = String.format("INSERT INTO prescription_priorities(name) values ('%s')", prescriptionPriority.getName());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
             {
-                patient.setId(resultSet.getLong("id"));
+                prescriptionPriority.setId(resultSet.getLong("id"));
                 return true;
             }
         }
@@ -116,14 +110,19 @@ public class PatientDao implements ObjectDao<Patient>
     }
 
     @Override
-    public boolean update(Patient patient)
+    public boolean update(PrescriptionPriority prescriptionPriority)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlUpdateRequest = String.format("UPDATE patients SET first_name = '%s', last_name = '%s', patronymic = '%s', phone = '%s' WHERE id = %d)",
-                patient.getFirstName(), patient.getLastName(), patient.getPatronymic(), patient.getPhone(), patient.getId());
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
+        String sqlCreateRequest = String.format("INSERT INTO prescription_priorities(first_name, last_name, patronymic, specialization_id) "
+                        + "values ('%s')", prescriptionPriority.getName());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
-            return preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+            {
+                prescriptionPriority.setId(resultSet.getLong("id"));
+                return true;
+            }
         }
         catch (SQLException ex)
         {
@@ -133,11 +132,12 @@ public class PatientDao implements ObjectDao<Patient>
     }
 
     @Override
-    public boolean delete(Patient patient)
+    public boolean delete(PrescriptionPriority prescriptionPriority)
     {
         Connection connection = new ConnectionService().getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("DELETE FROM patients WHERE id = '%d')", patient.getId())))
+        String sqlUpdateRequest = String.format("UPDATE prescription_priorities SET name = '%s' WHERE id = %d)",
+                prescriptionPriority.getName(),  prescriptionPriority.getId());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
             return preparedStatement.execute();
         }

@@ -23,7 +23,7 @@ create table prescriptions
     description varchar(255) not null,
     patient_id bigint not null,
     doctor_id bigint not null,
-    created_date default current_timestamp not null,
+    creating_date default current_timestamp not null,
     prescription_priority_id bigint not null,
 
     constraint fk_patient_id foreign key patient_id  references patients (id),

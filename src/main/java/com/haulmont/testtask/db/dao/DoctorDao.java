@@ -63,8 +63,7 @@ public class DoctorDao implements ObjectDao<Doctor>
             return null;
         }
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("SELECT * FROM doctors WHERE id = %d", id)))
+        try (PreparedStatement preparedStatement = connection.prepareStatement(String.format("SELECT * FROM doctors WHERE id = %d", id)))
         {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
@@ -106,9 +105,10 @@ public class DoctorDao implements ObjectDao<Doctor>
     public boolean create(Doctor doctor)
     {
         Connection connection = new ConnectionService().getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("INSERT INTO doctors(first_name, last_name, patronymic, specialization_id) values ('%s', '%s', '%s', %d)",
-                        doctor.getFirstName(), doctor.getLastName(), doctor.getPatronymic(), doctor.getSpecialization().getId())))
+        String sqlCreateRequest = String.format("INSERT INTO doctors(first_name, last_name, patronymic, specialization_id) "
+                        + "values ('%s', '%s', '%s', %d)",
+                doctor.getFirstName(), doctor.getLastName(), doctor.getPatronymic(), doctor.getSpecialization().getId());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
@@ -128,9 +128,9 @@ public class DoctorDao implements ObjectDao<Doctor>
     public boolean update(Doctor doctor)
     {
         Connection connection = new ConnectionService().getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("UPDATE doctors SET first_name = '%s', last_name = '%s', patronymic = '%s', specialization_id = %d WHERE id = %d)",
-                        doctor.getFirstName(), doctor.getLastName(), doctor.getPatronymic(), doctor.getSpecialization().getId(), doctor.getId())))
+        String sqlUpdateRequest = String.format("UPDATE doctors SET first_name = '%s', last_name = '%s', patronymic = '%s', specialization_id = %d WHERE id = %d)",
+                doctor.getFirstName(), doctor.getLastName(), doctor.getPatronymic(), doctor.getSpecialization().getId(), doctor.getId());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
             return preparedStatement.execute();
         }
@@ -146,7 +146,7 @@ public class DoctorDao implements ObjectDao<Doctor>
     {
         Connection connection = new ConnectionService().getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("DELETE FROM doctors WHERE id = '%s')", doctor.getId())))
+                String.format("DELETE FROM doctors WHERE id = '%d')", doctor.getId())))
         {
             return preparedStatement.execute();
         }
