@@ -28,29 +28,51 @@ public class MainUI extends UI
     private void addHeader()
     {
         HorizontalLayout header = new HorizontalLayout();
+        header.addComponent(new Label("Haulmont Hospital"));
         mainLayout.addComponent(header);
     }
-
 
     private void addCenter()
     {
         VerticalLayout content = new VerticalLayout();
         VerticalLayout navBar = new VerticalLayout();
 
-        Button doctorFormBtn = new Button("Doctors");
-        doctorFormBtn.addClickListener(clickEvent ->
+        Button doctorsFormBtn = new Button("Doctors");
+        doctorsFormBtn.addClickListener(clickEvent ->
         {
             content.removeAllComponents();
             content.addComponent(new DoctorForm());
         });
 
-        Button doctorFormBtn2 = new Button();
-        doctorFormBtn2.addClickListener(clickEvent ->
+        Button patientsFormBtn = new Button("Patients");
+        patientsFormBtn.addClickListener(clickEvent ->
         {
             content.removeAllComponents();
             content.addComponent(new PatientForm());
         });
-        navBar.addComponents(doctorFormBtn, doctorFormBtn2);
+
+        Button prescriptionstFormBtn = new Button("Prescriptions");
+        prescriptionstFormBtn.addClickListener(clickEvent ->
+        {
+            content.removeAllComponents();
+            content.addComponent(new PatientForm());
+        });
+
+        Button prescriptionPrioritiesFormBtn = new Button("Prescription Priorities");
+        prescriptionstFormBtn.addClickListener(clickEvent ->
+        {
+            content.removeAllComponents();
+            content.addComponent(new PatientForm());
+        });
+
+        Button specializations = new Button("Specializations");
+        prescriptionstFormBtn.addClickListener(clickEvent ->
+        {
+            content.removeAllComponents();
+            content.addComponent(new PatientForm());
+        });
+
+        navBar.addComponents(doctorsFormBtn, patientsFormBtn, prescriptionstFormBtn, prescriptionPrioritiesFormBtn, specializations);
         HorizontalLayout center = new HorizontalLayout();
         center.addComponents(navBar, content);
         mainLayout.addComponent(center);
@@ -59,6 +81,9 @@ public class MainUI extends UI
     private void addFooter()
     {
         HorizontalLayout footer = new HorizontalLayout();
+        Label footerText = new Label("Author: Dmitrii Mikhailov");
+        footer.addComponent(footerText);
+        footer.setComponentAlignment(footerText,  Alignment.TOP_RIGHT);
         mainLayout.addComponent(footer);
     }
 }

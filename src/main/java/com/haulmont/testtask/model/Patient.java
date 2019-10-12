@@ -17,6 +17,14 @@ public class Patient
         this.phone = phone;
     }
 
+    public Patient(String firstName, String lastName, String patronymic, String phone)
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.phone = phone;
+    }
+
     public Long getId()
     {
         return id;

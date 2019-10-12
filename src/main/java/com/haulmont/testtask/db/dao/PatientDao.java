@@ -22,6 +22,7 @@ public class PatientDao implements ObjectDao<Patient>
         Connection connection = new ConnectionService().getConnection();
         if (connection == null)
         {
+            LOG.error("Connection with DB is failed.");
             return Collections.emptyList();
         }
 
