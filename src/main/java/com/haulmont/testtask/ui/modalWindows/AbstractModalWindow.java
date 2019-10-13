@@ -1,13 +1,13 @@
 package com.haulmont.testtask.ui.modalWindows;
 
-import com.haulmont.testtask.model.Patient;
 import com.vaadin.data.Binder;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 
 public abstract class AbstractModalWindow<T> extends Window
 {
-    Binder<Patient> objectBinder;
-    VerticalLayout windowsLayout;
+    protected Binder<T> objectBinder;
+    protected VerticalLayout windowsLayout;
 
     AbstractModalWindow()
     {
@@ -23,10 +23,53 @@ public abstract class AbstractModalWindow<T> extends Window
         return textField;
     }
 
+    void generateNotification(T object)
+    {
+        Notification notification = new Notification("Notification");
+        notification.setDelayMsec(500);
+        notification.setPosition(Position.TOP_RIGHT);
+
+        if (object == null)
+        {
+            notification.setDescription("Operation was not completed because of occured errors.");
+        }
+        else
+        {
+            notification.setDescription("Operation successfully completed");
+            this.close();
+        }
+
+        notification.show(UI.getCurrent().getPage());
+    }
+
+    void addUpdateButton()
+    {
+        Button saveButton = new Button("Update");
+        saveButton.addClickListener(clickEvent ->
+        {
+            T object = editObject();
+            generateNotification(object);
+        });
+
+        windowsLayout.addComponent(saveButton);
+    }
+
+    protected void addSaveButton()
+    {
+        Button saveButton = new Button("Save");
+        saveButton.addClickListener(clickEvent ->
+        {
+            T object = addNewObject();
+            generateNotification(object);
+        });
+
+        windowsLayout.addComponent(saveButton);
+    }
+
     abstract void initFieldsAndBind();
 
-    abstract Notification generateNotification(T object);
-    abstract void addSaveButton();
+    abstract T addNewObject();
 
+    abstract T editObject();
 
 }

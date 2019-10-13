@@ -2,12 +2,10 @@ package com.haulmont.testtask.ui;
 
 import com.haulmont.testtask.db.dao.PatientDao;
 import com.haulmont.testtask.model.Patient;
-import com.haulmont.testtask.ui.modalWindows.AddPatientModal;
+import com.haulmont.testtask.ui.modalWindows.saveModals.AddPatientModal;
 import com.vaadin.ui.*;
 
-import java.util.Collection;
-
-public class PatientForm extends AbstractForm<Patient>
+public class PatientForm extends AbstractForm
 {
     private PatientDao patientDao;
 
@@ -15,7 +13,14 @@ public class PatientForm extends AbstractForm<Patient>
     {
         patientDao = new PatientDao();
 
+        generateHeaderPage();
+        generateTableObjects();
+    }
+
+    void generateHeaderPage()
+    {
         HorizontalLayout headerPatientView = new HorizontalLayout();
+
         Label pageLabel = new Label("Patients");
         headerPatientView.addComponents(pageLabel);
 
@@ -24,18 +29,15 @@ public class PatientForm extends AbstractForm<Patient>
         {
             UI.getCurrent().addWindow(new AddPatientModal());
         });
+
         headerPatientView.addComponent(addPatientModal);
         addComponent(headerPatientView);
-
-        Collection<Patient> patientsList = patientDao.getAll();
-        generateTableObjects(patientsList);
-
     }
 
-    void generateTableObjects(Collection<Patient> patientsList)
+    void generateTableObjects()
     {
         Grid<Patient> patientsGrid = new Grid<>(Patient.class);
-        patientsGrid.setItems(patientsList);
+        patientsGrid.setItems(patientDao.getAll());
         patientsGrid.removeColumn(PatientColumn.ID.getName());
         patientsGrid.setColumns(PatientColumn.FIRST_NAME.getName(), PatientColumn.LAST_NAME.getName(),
                 PatientColumn.PATRONYMIC.getName(), PatientColumn.PHONE.getName());

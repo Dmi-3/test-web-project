@@ -8,6 +8,10 @@ public class Doctor
     private String patronymic;
     private Specialization specialization;
 
+    public Doctor()
+    {
+    }
+
     public Doctor(Long id, String firstName, String lastName, String patronymic, Specialization specialization)
     {
         this.id = id;

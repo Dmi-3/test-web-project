@@ -4,7 +4,8 @@ import com.vaadin.ui.VerticalLayout;
 
 import java.util.Collection;
 
-public abstract class AbstractForm<T> extends VerticalLayout
+public abstract class AbstractForm extends VerticalLayout
 {
-    abstract void generateTableObjects(Collection<T> listObjects);
+    abstract void generateHeaderPage();
+    abstract void generateTableObjects();
 }

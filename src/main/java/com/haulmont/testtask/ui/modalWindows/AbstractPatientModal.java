@@ -2,32 +2,21 @@ package com.haulmont.testtask.ui.modalWindows;
 
 import com.haulmont.testtask.db.dao.PatientDao;
 import com.haulmont.testtask.model.Patient;
+import com.haulmont.testtask.ui.modalWindows.saveModals.AddPatientModal;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
-import com.vaadin.shared.Position;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import org.apache.log4j.Logger;
 
-public class AddPatientModal extends AbstractModalWindow<Patient>
+public abstract class AbstractPatientModal extends AbstractModalWindow<Patient>
 {
     private static final Logger LOG = Logger.getLogger(AddPatientModal.class);
     private PatientDao patientDao;
 
-    public AddPatientModal()
+    public AbstractPatientModal()
     {
         super();
         patientDao = new PatientDao();
-        //Window configures
-        setModal(true);
-        setClosable(true);
-
-        //Generate components
-        initFieldsAndBind();
-        addSaveButton();
-
-        setContent(windowsLayout);
     }
 
     protected void initFieldsAndBind()
@@ -47,7 +36,7 @@ public class AddPatientModal extends AbstractModalWindow<Patient>
         objectBinder.bind(phoneField, Patient::getPhone, Patient::setPhone);
     }
 
-    private Patient addNewPatient()
+    protected Patient addNewObject()
     {
         Patient patient = new Patient();
         try
@@ -63,36 +52,20 @@ public class AddPatientModal extends AbstractModalWindow<Patient>
         return null;
     }
 
-    protected void addSaveButton()
+    @Override
+    Patient editObject()
     {
-        Button saveButton = new Button("Save");
-        saveButton.addClickListener(clickEvent ->
+        Patient patient = new Patient();
+        try
         {
-            Patient patient = addNewPatient();
-            generateNotification(patient);
-        });
-
-        windowsLayout.addComponent(saveButton);
-    }
-
-    protected Notification generateNotification(Patient patient)
-    {
-        Notification notification = new Notification("New Patient");
-        notification.setDelayMsec(500);
-        notification.setPosition(Position.TOP_RIGHT);
-
-        if (patient == null)
-        {
-            notification.setDescription("Patient was not added because of occured errors.");
+            objectBinder.writeBean(patient);
+            return patientDao.update(patient) ? patient : null;
         }
-        else
+        catch (ValidationException e)
         {
-            notification.setDescription(String.format("Patient '%s' '%s' was added successfully",
-                    patient.getFirstName(), patient.getLastName()));
-            this.close();
+            LOG.error("Error occured during adding a new patient.");
         }
 
-        return notification;
+        return null;
     }
-
 }
