@@ -6,13 +6,11 @@ import com.haulmont.testtask.model.Doctor;
 import com.haulmont.testtask.model.Specialization;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.SingleSelect;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 import org.apache.log4j.Logger;
 
-public class AbstractDoctorModal extends AbstractModalWindow<Doctor>
+public abstract class AbstractDoctorModal extends AbstractModalWindow<Doctor>
 {
     private static final Logger LOG = Logger.getLogger(AbstractDoctorModal.class);
     private DoctorDao doctorDao;
@@ -47,11 +45,13 @@ public class AbstractDoctorModal extends AbstractModalWindow<Doctor>
         TextField patronymicField = addTextField("Patronymic");
         objectBinder.bind(patronymicField, Doctor::getPatronymic, Doctor::setPatronymic);
 
-        Grid<Specialization> specializationsGrid = new Grid<>();
-        specializationsGrid.setItems(specializationDao.getAll());
-        SingleSelect<Specialization> specializationField = specializationsGrid.asSingleSelect();
-
-        objectBinder.bind(specializationField, Doctor::getSpecialization, Doctor::setSpecialization);
+//        Grid<Specialization> specializationsGrid = new Grid<>();
+//        specializationsGrid.setItems(specializationDao.getAll());
+//        specializationsGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
+//        addOtherComponent(specializationsGrid);
+        ComboBox<Specialization> specializationsField = new ComboBox<>();
+        specializationsField.setItems(specializationDao.getAll());
+        objectBinder.bind(specializationsField, Doctor::getSpecialization, Doctor::setSpecialization);
     }
 
     protected Doctor addNewObject()
@@ -73,18 +73,18 @@ public class AbstractDoctorModal extends AbstractModalWindow<Doctor>
     @Override
     Doctor editObject()
     {
+        Doctor doctor = new Doctor();
+        try
+        {
+            objectBinder.writeBean(doctor);
+            return doctorDao.update(doctor) ? doctor : null;
+        }
+        catch (ValidationException e)
+        {
+            LOG.error("Error occured during adding a new doctor.");
+        }
+
         return null;
     }
 
-    protected void addSaveButton()
-    {
-        Button saveButton = new Button("Save");
-        saveButton.addClickListener(clickEvent ->
-        {
-            Doctor doctor = addNewObject();
-            generateNotification(doctor);
-        });
-
-        windowsLayout.addComponent(saveButton);
-    }
 }

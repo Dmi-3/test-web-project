@@ -11,6 +11,10 @@ public class Prescription
     private Date creatingDate;
     private PrescriptionPriority prescriptionPriority;
 
+    public Prescription()
+    {
+    }
+
     public Prescription(Long id, String description, Patient patient, Doctor doctor, Date creatingDate,
                         PrescriptionPriority prescriptionPriority)
     {

@@ -11,6 +11,7 @@ public class Patient
     public Patient()
     {
     }
+
     public Patient(Long id, String firstName, String lastName, String patronymic, String phone)
     {
         this.id = id;
