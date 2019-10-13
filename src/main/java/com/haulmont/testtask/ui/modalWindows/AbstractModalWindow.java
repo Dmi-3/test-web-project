@@ -4,6 +4,8 @@ import com.vaadin.data.Binder;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 
+import java.util.Collection;
+
 public abstract class AbstractModalWindow<T> extends Window
 {
     protected Binder<T> objectBinder;
@@ -35,11 +37,14 @@ public abstract class AbstractModalWindow<T> extends Window
         return textArea;
     }
 
-    Component addOtherComponent(Component component) // todo: rewrite to singleSelect
+    <S> ComboBox<S> addComboBox(String fieldName, Collection<S> objects)
     {
         HorizontalLayout fieldGroupLayout = new HorizontalLayout();
-        windowsLayout.addComponent(component);
-        return component;
+        ComboBox<S> comboBox = new ComboBox<>(fieldName);
+        comboBox.setItems(objects);
+        fieldGroupLayout.addComponent(comboBox);
+        windowsLayout.addComponent(fieldGroupLayout);
+        return comboBox;
     }
 
     private void generateNotification(boolean isOperationSuccess)

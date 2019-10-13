@@ -57,14 +57,14 @@ public class MainUI extends UI
         });
 
         Button prescriptionPrioritiesFormBtn = new Button("Prescription Priorities");
-        prescriptionstFormBtn.addClickListener(clickEvent ->
+        prescriptionPrioritiesFormBtn.addClickListener(clickEvent ->
         {
             content.removeAllComponents();
             content.addComponent(new PrescriptionPriorityForm());
         });
 
         Button specializations = new Button("Specializations");
-        prescriptionstFormBtn.addClickListener(clickEvent ->
+        specializations.addClickListener(clickEvent ->
         {
             content.removeAllComponents();
             content.addComponent(new SpecializationForm());

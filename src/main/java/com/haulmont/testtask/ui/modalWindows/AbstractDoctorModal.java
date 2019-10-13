@@ -43,8 +43,8 @@ public abstract class AbstractDoctorModal extends AbstractModalWindow<Doctor>
         TextField patronymicField = addTextField("Patronymic");
         objectBinder.bind(patronymicField, Doctor::getPatronymic, Doctor::setPatronymic);
 
-        ComboBox<Specialization> specializationsField = new ComboBox<>();
-        specializationsField.setItems(specializationDao.getAll());
+        ComboBox<Specialization> specializationsField = addComboBox("Specialization", specializationDao.getAll());
+        specializationsField.setItemCaptionGenerator(Specialization::getName);
         objectBinder.bind(specializationsField, Doctor::getSpecialization, Doctor::setSpecialization);
     }
 

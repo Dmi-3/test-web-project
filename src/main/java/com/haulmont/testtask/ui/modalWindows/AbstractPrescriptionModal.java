@@ -44,16 +44,13 @@ public class AbstractPrescriptionModal extends AbstractModalWindow<Prescription>
         TextArea descriptionField = addTextArea("Description");
         objectBinder.bind(descriptionField, Prescription::getDescription, Prescription::setDescription);
 
-        ComboBox<Patient> patientsField = new ComboBox<>();
-        patientsField.setItems(patientDao.getAll());
-        objectBinder.bind(patientsField, Prescription::getPatient, Prescription::setPatient);
+        ComboBox<Patient> patientField = addComboBox("Patient", patientDao.getAll());
+        objectBinder.bind(patientField, Prescription::getPatient, Prescription::setPatient);
 
-        ComboBox<Doctor> doctorsField = new ComboBox<>();
-        doctorsField.setItems(doctorDao.getAll());
-        objectBinder.bind(doctorsField, Prescription::getDoctor, Prescription::setDoctor);
+        ComboBox<Doctor> doctorField = addComboBox("Doctor", doctorDao.getAll());
+        objectBinder.bind(doctorField, Prescription::getDoctor, Prescription::setDoctor);
 
-        ComboBox<PrescriptionPriority> prescriptionPriorityField = new ComboBox<>();
-        doctorsField.setItems(doctorDao.getAll());
+        ComboBox<PrescriptionPriority> prescriptionPriorityField = addComboBox("Prescription Priority", prescriptionPriorityDao.getAll());
         objectBinder.bind(prescriptionPriorityField, Prescription::getPrescriptionPriority, Prescription::setPrescriptionPriority);
     }
 

@@ -37,13 +37,23 @@ public class PrescriptionForm extends AbstractForm<Prescription>
     @Override
     protected AbstractModalWindow getAddModalObject()
     {
-        return new AddPrescriptionModal();
+        AddPrescriptionModal addPrescriptionModal = new AddPrescriptionModal();
+        addPrescriptionModal.addCloseListener(closeEvent ->
+        {
+            objectsGrid.setItems(prescriptionDao.getAll());
+        });
+        return addPrescriptionModal;
     }
 
     @Override
     protected AbstractModalWindow getUpdateModalObject(Prescription prescription)
     {
-        return new UpdatePrescriptionModal(prescription);
+        UpdatePrescriptionModal updatePrescriptionModal = new UpdatePrescriptionModal(prescription);
+        updatePrescriptionModal.addCloseListener(closeEvent ->
+        {
+            objectsGrid.setItems(prescriptionDao.getAll());
+        });
+        return updatePrescriptionModal;
     }
 
     @Override

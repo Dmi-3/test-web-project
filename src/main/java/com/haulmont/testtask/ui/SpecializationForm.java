@@ -34,13 +34,23 @@ public class SpecializationForm extends AbstractForm<Specialization>
     @Override
     protected AbstractModalWindow getAddModalObject()
     {
-        return new AddSpecializationModal();
+        AddSpecializationModal addSpecializationModal = new AddSpecializationModal();
+        addSpecializationModal.addCloseListener(closeEvent ->
+        {
+            objectsGrid.setItems(specializationDao.getAll());
+        });
+        return addSpecializationModal;
     }
 
     @Override
     protected AbstractModalWindow getUpdateModalObject(Specialization specialization)
     {
-        return new UpdateSpecializationModal(specialization);
+        UpdateSpecializationModal updateSpecializationModal = new UpdateSpecializationModal(specialization);
+        updateSpecializationModal.addCloseListener(closeEvent ->
+        {
+            objectsGrid.setItems(specializationDao.getAll());
+        });
+        return updateSpecializationModal;
     }
 
     @Override
