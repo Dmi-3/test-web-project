@@ -1,9 +1,11 @@
 package com.haulmont.testtask.ui.modalWindows;
 
 import com.haulmont.testtask.db.dao.PrescriptionPriorityDao;
+import com.haulmont.testtask.model.Patient;
 import com.haulmont.testtask.model.PrescriptionPriority;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
+import com.vaadin.data.converter.StringToLongConverter;
 import com.vaadin.ui.TextField;
 import org.apache.log4j.Logger;
 
@@ -22,6 +24,12 @@ public class AbstractPrescriptionPriorityModal extends AbstractModalWindow<Presc
     protected void initFieldsAndBind()
     {
         objectBinder = new Binder<>();
+
+        TextField idField = addTextField("Id");
+        objectBinder.forField(idField)
+                .withConverter(new StringToLongConverter("Not a number"))
+                .bind(PrescriptionPriority::getId, PrescriptionPriority::setId);
+        idField.setVisible(false);
 
         TextField firstNameField = addTextField("Name");
         objectBinder.bind(firstNameField, PrescriptionPriority::getName, PrescriptionPriority::setName);

@@ -5,6 +5,7 @@ import com.haulmont.testtask.model.PrescriptionPriority;
 import com.haulmont.testtask.ui.modalWindows.AbstractModalWindow;
 import com.haulmont.testtask.ui.modalWindows.editModals.UpdatePrescriptionPriorityModal;
 import com.haulmont.testtask.ui.modalWindows.saveModals.AddPrescriptionPriorityModal;
+import com.vaadin.ui.Grid;
 
 public class PrescriptionPriorityForm extends AbstractForm<PrescriptionPriority>
 {
@@ -21,6 +22,8 @@ public class PrescriptionPriorityForm extends AbstractForm<PrescriptionPriority>
     @Override
     protected void generateTableObjects()
     {
+        objectsGrid = new Grid<>(PrescriptionPriority.class);
+        objectsGrid.setWidth("800px");
         objectsGrid.setItems(prescriptionPriorityDao.getAll());
         objectsGrid.removeColumn(PrescriptionColumn.ID.getName());
         objectsGrid.setColumns(PrescriptionColumn.NAME.getName());

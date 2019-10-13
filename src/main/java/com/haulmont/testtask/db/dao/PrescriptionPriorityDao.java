@@ -95,12 +95,8 @@ public class PrescriptionPriorityDao implements ObjectDao<PrescriptionPriority>
         String sqlCreateRequest = String.format("INSERT INTO prescription_priorities(name) values ('%s')", prescriptionPriority.getName());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-            {
-                prescriptionPriority.setId(resultSet.getLong("id"));
-                return true;
-            }
+            preparedStatement.execute();
+            return true;
         }
         catch (SQLException ex)
         {
@@ -114,15 +110,11 @@ public class PrescriptionPriorityDao implements ObjectDao<PrescriptionPriority>
     {
         Connection connection = new ConnectionService().getConnection();
         String sqlCreateRequest = String.format("INSERT INTO prescription_priorities(first_name, last_name, patronymic, specialization_id) "
-                        + "values ('%s')", prescriptionPriority.getName());
+                + "values ('%s')", prescriptionPriority.getName());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-            {
-                prescriptionPriority.setId(resultSet.getLong("id"));
-                return true;
-            }
+            preparedStatement.executeUpdate();
+            return true;
         }
         catch (SQLException ex)
         {
@@ -135,11 +127,12 @@ public class PrescriptionPriorityDao implements ObjectDao<PrescriptionPriority>
     public boolean delete(PrescriptionPriority prescriptionPriority)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlUpdateRequest = String.format("UPDATE prescription_priorities SET name = '%s' WHERE id = %d)",
-                prescriptionPriority.getName(),  prescriptionPriority.getId());
+        String sqlUpdateRequest = String.format("DELETE prescription_priorities SET name = '%s' WHERE id = %d",
+                prescriptionPriority.getName(), prescriptionPriority.getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
-            return preparedStatement.execute();
+            preparedStatement.execute();
+            return true;
         }
         catch (SQLException ex)
         {

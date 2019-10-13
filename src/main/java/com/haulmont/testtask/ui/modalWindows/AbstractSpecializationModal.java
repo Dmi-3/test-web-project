@@ -4,6 +4,7 @@ import com.haulmont.testtask.db.dao.SpecializationDao;
 import com.haulmont.testtask.model.Specialization;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
+import com.vaadin.data.converter.StringToLongConverter;
 import com.vaadin.ui.TextField;
 import org.apache.log4j.Logger;
 
@@ -23,6 +24,12 @@ public class AbstractSpecializationModal extends AbstractModalWindow<Specializat
     protected void initFieldsAndBind()
     {
         objectBinder = new Binder<>();
+
+        TextField idField = addTextField("Id");
+        objectBinder.forField(idField)
+                .withConverter(new StringToLongConverter("Not a number"))
+                .bind(Specialization::getId, Specialization::setId);
+        idField.setVisible(false);
 
         TextField firstNameField = addTextField("Name");
         objectBinder.bind(firstNameField, Specialization::getName, Specialization::setName);

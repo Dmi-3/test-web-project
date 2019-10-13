@@ -1,7 +1,6 @@
 package com.haulmont.testtask.ui;
 
 import com.haulmont.testtask.db.dao.PatientDao;
-import com.haulmont.testtask.model.Doctor;
 import com.haulmont.testtask.model.Patient;
 import com.haulmont.testtask.ui.modalWindows.AbstractModalWindow;
 import com.haulmont.testtask.ui.modalWindows.editModals.UpdatePatientModal;
@@ -25,26 +24,36 @@ public class PatientForm extends AbstractForm<Patient>
     protected void generateTableObjects()
     {
         objectsGrid = new Grid<>(Patient.class);
+        objectsGrid.setWidth("800px");
         objectsGrid.setItems(patientDao.getAll());
         objectsGrid.setColumns(PatientColumn.FIRST_NAME.getName(), PatientColumn.LAST_NAME.getName(),
                 PatientColumn.PATRONYMIC.getName(), PatientColumn.PHONE.getName());
         objectsGrid.addComponentColumn(this::generateUpdateRowButton);
         objectsGrid.addComponentColumn(this::generateRemoveRowButton);
         objectsGrid.setHeightMode(HeightMode.ROW);
-        objectsGrid.setWidth("800px");
         addComponent(objectsGrid);
     }
 
     @Override
-    protected AbstractModalWindow getUpdateModalObject(Patient object)
+    protected AbstractModalWindow getUpdateModalObject(Patient patient)
     {
-        return new UpdatePatientModal(object);
+        UpdatePatientModal updatePatientModal = new UpdatePatientModal(patient);
+        updatePatientModal.addCloseListener(closeEvent ->
+        {
+            objectsGrid.setItems(patientDao.getAll());
+        });
+        return updatePatientModal;
     }
 
     @Override
     protected AbstractModalWindow getAddModalObject()
     {
-        return new AddPatientModal();
+        AddPatientModal addPatientModal = new AddPatientModal();
+        addPatientModal.addCloseListener(closeEvent ->
+        {
+            objectsGrid.setItems(patientDao.getAll());
+        });
+        return addPatientModal;
     }
 
     @Override

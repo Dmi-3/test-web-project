@@ -5,6 +5,7 @@ import com.haulmont.testtask.model.Prescription;
 import com.haulmont.testtask.ui.modalWindows.AbstractModalWindow;
 import com.haulmont.testtask.ui.modalWindows.editModals.UpdatePrescriptionModal;
 import com.haulmont.testtask.ui.modalWindows.saveModals.AddPrescriptionModal;
+import com.vaadin.ui.Grid;
 
 public class PrescriptionForm extends AbstractForm<Prescription>
 {
@@ -21,6 +22,8 @@ public class PrescriptionForm extends AbstractForm<Prescription>
     @Override
     protected void generateTableObjects()
     {
+        objectsGrid = new Grid<>(Prescription.class);
+        objectsGrid.setWidth("800px");
         objectsGrid.setItems(prescriptionDao.getAll());
         objectsGrid.removeColumn(PrescriptionColumn.ID.getName());
         objectsGrid.setColumns(PrescriptionColumn.DESCRIPTION.getName(), PrescriptionColumn.PATIENT.getName(),

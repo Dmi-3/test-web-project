@@ -101,9 +101,6 @@ public class PrescriptionDao implements ObjectDao<Prescription>
             Long prescriptionPriorityId = resultSet.getLong("prescription_priority_id bigint");
             PrescriptionPriority prescriptionPriority = prescriptionPriorityDao.getById(prescriptionPriorityId);
 
-            String patronymic = resultSet.getString("patronymic");
-            String phone = resultSet.getString("phone");
-
             return new Prescription(id, description, patient, doctor, creatingDate, prescriptionPriority);
         }
         catch (SQLException ex)
@@ -124,12 +121,7 @@ public class PrescriptionDao implements ObjectDao<Prescription>
                 prescription.getCreatingDate(), prescription.getPrescriptionPriority().getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-            {
-                prescription.setId(resultSet.getLong("id"));
-                return true;
-            }
+            preparedStatement.execute();
         }
         catch (SQLException ex)
         {
@@ -143,13 +135,14 @@ public class PrescriptionDao implements ObjectDao<Prescription>
     {
         Connection connection = new ConnectionService().getConnection();
         String sqlUpdateRequest = String.format("UPDATE prescriptions SET description = '%s', patient_id = '%d', doctor_id = '%d',"
-                        + " creating_date = '%s', prescription_priority_id = '%d' WHERE id = %d)",
+                        + " creating_date = '%s', prescription_priority_id = '%d' WHERE id = %d",
                 prescription.getDescription(), prescription.getPatient().getId(), prescription.getDoctor().getId(),
                 prescription.getCreatingDate(), prescription.getPrescriptionPriority().getId(), prescription.getId());
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
-            return preparedStatement.execute();
+            preparedStatement.executeUpdate();
+            return true;
         }
         catch (SQLException ex)
         {
@@ -163,9 +156,10 @@ public class PrescriptionDao implements ObjectDao<Prescription>
     {
         Connection connection = new ConnectionService().getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("DELETE FROM prescriptions WHERE id = '%d')", prescription.getId())))
+                String.format("DELETE FROM prescriptions WHERE id = '%d'", prescription.getId())))
         {
-            return preparedStatement.execute();
+            preparedStatement.execute();
+            return true;
         }
         catch (SQLException ex)
         {

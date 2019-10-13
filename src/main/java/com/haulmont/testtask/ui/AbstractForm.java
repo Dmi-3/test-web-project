@@ -1,6 +1,5 @@
 package com.haulmont.testtask.ui;
 
-import com.haulmont.testtask.model.Patient;
 import com.haulmont.testtask.ui.modalWindows.AbstractModalWindow;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
@@ -10,7 +9,7 @@ public abstract class AbstractForm<T> extends VerticalLayout
 {
     Grid<T> objectsGrid;
 
-    protected void generateHeaderPage(String pageLabelName)
+    void generateHeaderPage(String pageLabelName)
     {
         HorizontalLayout headerPatientView = new HorizontalLayout();
 
@@ -29,7 +28,7 @@ public abstract class AbstractForm<T> extends VerticalLayout
 
     protected abstract void generateTableObjects();
 
-    protected Button generateUpdateRowButton(T object)
+    Button generateUpdateRowButton(T object)
     {
         Button button = new Button(VaadinIcons.EDIT);
         button.addStyleName(ValoTheme.BUTTON_SMALL);
@@ -42,9 +41,10 @@ public abstract class AbstractForm<T> extends VerticalLayout
     }
 
     protected abstract AbstractModalWindow getAddModalObject();
+
     protected abstract AbstractModalWindow getUpdateModalObject(T object);
 
-    protected Button generateRemoveRowButton(T object)
+    Button generateRemoveRowButton(T object)
     {
         Button button = new Button(VaadinIcons.CLOSE_SMALL);
         button.addStyleName(ValoTheme.BUTTON_SMALL);

@@ -102,7 +102,8 @@ public class PatientDao implements ObjectDao<Patient>
                 patient.getFirstName(), patient.getLastName(), patient.getPatronymic(), patient.getPhone());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
-            return preparedStatement.execute();
+            preparedStatement.execute();
+            return true;
         }
         catch (SQLException ex)
         {
@@ -134,9 +135,10 @@ public class PatientDao implements ObjectDao<Patient>
     {
         Connection connection = new ConnectionService().getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("DELETE FROM patients WHERE id = '%d')", patient.getId())))
+                String.format("DELETE FROM patients WHERE id = '%d'", patient.getId())))
         {
-            return preparedStatement.execute();
+            preparedStatement.execute();
+            return true;
         }
         catch (SQLException ex)
         {

@@ -95,12 +95,8 @@ public class SpecializationDao implements ObjectDao<Specialization>
         String sqlCreateRequest = String.format("INSERT INTO specializations(name) values ('%s')", specialization.getName());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-            {
-                specialization.setId(resultSet.getLong("id"));
-                return true;
-            }
+            preparedStatement.execute();
+            return true;
         }
         catch (SQLException ex)
         {
@@ -117,12 +113,8 @@ public class SpecializationDao implements ObjectDao<Specialization>
                 + "values ('%s')", specialization.getName());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-            {
-                specialization.setId(resultSet.getLong("id"));
-                return true;
-            }
+            preparedStatement.executeUpdate();
+            return true;
         }
         catch (SQLException ex)
         {
@@ -135,11 +127,12 @@ public class SpecializationDao implements ObjectDao<Specialization>
     public boolean delete(Specialization specialization)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlUpdateRequest = String.format("UPDATE specializations SET name = '%s' WHERE id = %d)",
+        String sqlUpdateRequest = String.format("DELETE specializations SET name = '%s' WHERE id = %d",
                 specialization.getName(), specialization.getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
-            return preparedStatement.execute();
+            preparedStatement.execute();
+            return true;
         }
         catch (SQLException ex)
         {

@@ -6,6 +6,7 @@ import com.haulmont.testtask.model.Doctor;
 import com.haulmont.testtask.model.Specialization;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
+import com.vaadin.data.converter.StringToLongConverter;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 import org.apache.log4j.Logger;
@@ -27,6 +28,12 @@ public abstract class AbstractDoctorModal extends AbstractModalWindow<Doctor>
     {
         objectBinder = new Binder<>();
 
+        TextField idField = addTextField("Id");
+        objectBinder.forField(idField)
+                .withConverter(new StringToLongConverter("Not a number"))
+                .bind(Doctor::getId, Doctor::setId);
+        idField.setVisible(false);
+
         TextField firstNameField = addTextField("Field Name");
         objectBinder.bind(firstNameField, Doctor::getFirstName, Doctor::setFirstName);
 
@@ -36,10 +43,6 @@ public abstract class AbstractDoctorModal extends AbstractModalWindow<Doctor>
         TextField patronymicField = addTextField("Patronymic");
         objectBinder.bind(patronymicField, Doctor::getPatronymic, Doctor::setPatronymic);
 
-//        Grid<Specialization> specializationsGrid = new Grid<>();
-//        specializationsGrid.setItems(specializationDao.getAll());
-//        specializationsGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
-//        addOtherComponent(specializationsGrid);
         ComboBox<Specialization> specializationsField = new ComboBox<>();
         specializationsField.setItems(specializationDao.getAll());
         objectBinder.bind(specializationsField, Doctor::getSpecialization, Doctor::setSpecialization);

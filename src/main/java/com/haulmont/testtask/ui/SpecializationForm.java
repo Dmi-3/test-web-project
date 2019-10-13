@@ -5,6 +5,7 @@ import com.haulmont.testtask.model.Specialization;
 import com.haulmont.testtask.ui.modalWindows.AbstractModalWindow;
 import com.haulmont.testtask.ui.modalWindows.editModals.UpdateSpecializationModal;
 import com.haulmont.testtask.ui.modalWindows.saveModals.AddSpecializationModal;
+import com.vaadin.ui.Grid;
 
 public class SpecializationForm extends AbstractForm<Specialization>
 {
@@ -21,8 +22,9 @@ public class SpecializationForm extends AbstractForm<Specialization>
     @Override
     protected void generateTableObjects()
     {
+        objectsGrid = new Grid<>(Specialization.class);
+        objectsGrid.setWidth("800px");
         objectsGrid.setItems(specializationDao.getAll());
-        objectsGrid.removeColumn(SpecializationColumn.ID.getName());
         objectsGrid.setColumns(SpecializationColumn.NAME.getName());
         objectsGrid.addComponentColumn(this::generateUpdateRowButton);
         objectsGrid.addComponentColumn(this::generateRemoveRowButton);

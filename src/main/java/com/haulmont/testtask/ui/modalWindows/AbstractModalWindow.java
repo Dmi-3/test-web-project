@@ -44,7 +44,7 @@ public abstract class AbstractModalWindow<T> extends Window
 
     private void generateNotification(boolean isOperationSuccess)
     {
-        Notification notification = new Notification("Notification");
+        Notification notification = new Notification("");
         notification.setDelayMsec(1000);
         notification.setPosition(Position.TOP_RIGHT);
 

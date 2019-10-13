@@ -110,12 +110,8 @@ public class DoctorDao implements ObjectDao<Doctor>
                 doctor.getFirstName(), doctor.getLastName(), doctor.getPatronymic(), doctor.getSpecialization().getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-            {
-                doctor.setId(resultSet.getLong("id"));
-                return true;
-            }
+            preparedStatement.execute();
+            return true;
         }
         catch (SQLException ex)
         {
@@ -128,11 +124,12 @@ public class DoctorDao implements ObjectDao<Doctor>
     public boolean update(Doctor doctor)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlUpdateRequest = String.format("UPDATE doctors SET first_name = '%s', last_name = '%s', patronymic = '%s', specialization_id = %d WHERE id = %d)",
+        String sqlUpdateRequest = String.format("UPDATE doctors SET first_name = '%s', last_name = '%s', patronymic = '%s', specialization_id = %d WHERE id = %d",
                 doctor.getFirstName(), doctor.getLastName(), doctor.getPatronymic(), doctor.getSpecialization().getId(), doctor.getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
-            return preparedStatement.execute();
+            preparedStatement.executeUpdate();
+            return true;
         }
         catch (SQLException ex)
         {
@@ -146,9 +143,10 @@ public class DoctorDao implements ObjectDao<Doctor>
     {
         Connection connection = new ConnectionService().getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                String.format("DELETE FROM doctors WHERE id = '%d')", doctor.getId())))
+                String.format("DELETE FROM doctors WHERE id = '%d'", doctor.getId())))
         {
-            return preparedStatement.execute();
+            preparedStatement.execute();
+            return true;
         }
         catch (SQLException ex)
         {

@@ -24,7 +24,7 @@ public class DoctorForm extends AbstractForm<Doctor>
     protected void generateTableObjects()
     {
         objectsGrid = new Grid<>(Doctor.class);
-        objectsGrid.setSizeFull();
+        objectsGrid.setWidth("800px");
         objectsGrid.setItems(doctorDao.getAll());
         objectsGrid.setColumns(DoctorForm.DoctorColumn.FIRST_NAME.getName(), DoctorForm.DoctorColumn.LAST_NAME.getName(),
                 DoctorForm.DoctorColumn.PATRONYMIC.getName(), DoctorColumn.SPECIALIZATION.getName());
@@ -36,13 +36,23 @@ public class DoctorForm extends AbstractForm<Doctor>
     @Override
     protected AbstractModalWindow getAddModalObject()
     {
-        return new AddDoctorModal();
+        AddDoctorModal addDoctorModal = new AddDoctorModal();
+        addDoctorModal.addCloseListener(closeEvent ->
+        {
+            objectsGrid.setItems(doctorDao.getAll());
+        });
+        return addDoctorModal;
     }
 
     @Override
     protected AbstractModalWindow getUpdateModalObject(Doctor doctor)
     {
-        return new UpdateDoctorModal(doctor);
+        UpdateDoctorModal updateDoctorModal = new UpdateDoctorModal(doctor);
+        updateDoctorModal.addCloseListener(closeEvent ->
+        {
+            objectsGrid.setItems(doctorDao.getAll());
+        });
+        return updateDoctorModal;
     }
 
     @Override

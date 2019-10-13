@@ -5,6 +5,7 @@ import com.haulmont.testtask.model.Patient;
 import com.haulmont.testtask.ui.modalWindows.saveModals.AddPatientModal;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
+import com.vaadin.data.converter.StringToLongConverter;
 import com.vaadin.ui.TextField;
 import org.apache.log4j.Logger;
 
@@ -22,6 +23,12 @@ public abstract class AbstractPatientModal extends AbstractModalWindow<Patient>
     protected void initFieldsAndBind()
     {
         objectBinder = new Binder<>();
+
+        TextField idField = addTextField("Id");
+        objectBinder.forField(idField)
+                .withConverter(new StringToLongConverter("Not a number"))
+                .bind(Patient::getId, Patient::setId);
+        idField.setVisible(false);
 
         TextField firstNameField = addTextField("Field Name");
         objectBinder.bind(firstNameField, Patient::getFirstName, Patient::setFirstName);

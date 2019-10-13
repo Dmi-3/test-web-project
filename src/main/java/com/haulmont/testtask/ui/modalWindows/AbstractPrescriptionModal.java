@@ -7,8 +7,10 @@ import com.haulmont.testtask.model.Prescription;
 import com.haulmont.testtask.model.PrescriptionPriority;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
+import com.vaadin.data.converter.StringToLongConverter;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
 import org.apache.log4j.Logger;
 
 public class AbstractPrescriptionModal extends AbstractModalWindow<Prescription>
@@ -32,6 +34,12 @@ public class AbstractPrescriptionModal extends AbstractModalWindow<Prescription>
     protected void initFieldsAndBind()
     {
         objectBinder = new Binder<>();
+
+        TextField idField = addTextField("Id");
+        objectBinder.forField(idField)
+                .withConverter(new StringToLongConverter("Not a number"))
+                .bind(Prescription::getId, Prescription::setId);
+        idField.setVisible(false);
 
         TextArea descriptionField = addTextArea("Description");
         objectBinder.bind(descriptionField, Prescription::getDescription, Prescription::setDescription);
