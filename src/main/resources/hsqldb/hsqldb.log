@@ -1,0 +1,12 @@
+/*C1*/SET SCHEMA SYSTEM_LOBS
+INSERT INTO BLOCKS VALUES(0,2147483647,0)
+COMMIT
+/*C2*/SET SCHEMA PUBLIC
+create table patients\u000d\u000a(\u000d\u000a    id bigint identity primary key,\u000d\u000a    first_name varchar(50) not null,\u000d\u000a    last_name varchar(50),\u000d\u000a    patronymic varchar(50),\u000d\u000a    phone varchar(30) not null\u000d\u000a)
+create table prescription_priorities\u000d\u000a(\u000d\u000a    id bigint identity primary key,\u000d\u000a    name varchar(20)\u000d\u000a)
+create table specializations\u000d\u000a(\u000d\u000a    id bigint identity primary key,\u000d\u000a    name varchar(20)\u000d\u000a)
+create table doctors\u000d\u000a(\u000d\u000a    id bigint identity primary key,\u000d\u000a    first_name varchar(50) not null,\u000d\u000a    last_name varchar(50),\u000d\u000a    patronymic varchar(50),\u000d\u000a    specialization_id bigint not null,\u000d\u000a    constraint fk_specialization_id foreign key (specialization_id) references specializations (id)\u000d\u000a)
+create table prescriptions\u000d\u000a(\u000d\u000a    id bigint identity primary key,\u000d\u000a    description varchar(255) not null,\u000d\u000a    patient_id bigint not null,\u000d\u000a    doctor_id bigint not null,\u000d\u000a    creating_date timestamp default current_timestamp not null,\u000d\u000a    prescription_priority_id bigint not null,\u000d\u000a\u000d\u000a    constraint fk_patient_id foreign key (patient_id)  references patients (id),\u000d\u000a    constraint fk_doctor_id foreign key (doctor_id)  references doctors (id),\u000d\u000a    constraint fk_prescription_priority_id foreign key (prescription_priority_id)  references prescription_priorities (id)\u000d\u000a)
+INSERT INTO PATIENTS VALUES(0,'Dmitrii','Mikhailov','Sergeevich','+7-(937)-...')
+COMMIT
+DISCONNECT
