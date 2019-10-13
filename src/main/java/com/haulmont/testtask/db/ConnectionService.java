@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class ConnectionService
 {
     private static final Logger LOG = Logger.getLogger(ConnectionService.class);
-    private static final String dbPath = "res:/hsqlDb/hsqlDb";
+    private static final String dbPath = "res:/db/hsqlDb";
     private Connection connection;
 
     public synchronized Connection getConnection()
@@ -18,7 +18,7 @@ public class ConnectionService
         {
             if (connection == null || connection.isClosed())
             {
-                connection = DriverManager.getConnection("jdbc:hsqldb:" + dbPath + "; shutdown=true", "SA", "");
+                connection = DriverManager.getConnection("jdbc:hsqldb:" + dbPath+";shutdown=true", "SA", "");
             }
         }
         catch (SQLException e)

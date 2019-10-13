@@ -8,6 +8,9 @@ public class Patient
     private String patronymic;
     private String phone;
 
+    public Patient()
+    {
+    }
     public Patient(Long id, String firstName, String lastName, String patronymic, String phone)
     {
         this.id = id;

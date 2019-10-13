@@ -1,1 +1,5 @@
 java -cp hsqldb-2.5.0.jar org.hsqldb.util.DatabaseManager
+
+ Connection c = DriverManager.getConnection("jdbc:hsqldb:file:testdb", "SA", "");
+ Connection c = DriverManager.getConnection("jdbc:hsqldb:mem:mymemdb", "SA", "");
+ Connection c = DriverManager.getConnection("jdbc:hsqldb:res:testdb", "SA", "");

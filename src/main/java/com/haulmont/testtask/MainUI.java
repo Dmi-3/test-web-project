@@ -36,6 +36,7 @@ public class MainUI extends UI
     {
         VerticalLayout content = new VerticalLayout();
         VerticalLayout navBar = new VerticalLayout();
+        Panel panel = new Panel();
 
         Button doctorsFormBtn = new Button("Doctors");
         doctorsFormBtn.addClickListener(clickEvent ->
@@ -49,6 +50,7 @@ public class MainUI extends UI
         {
             content.removeAllComponents();
             content.addComponent(new PatientForm());
+
         });
 
         Button prescriptionstFormBtn = new Button("Prescriptions");
