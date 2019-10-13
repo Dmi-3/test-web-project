@@ -28,36 +28,36 @@ public class AbstractPrescriptionPriorityModal extends AbstractModalWindow<Presc
     }
 
     @Override
-    protected PrescriptionPriority addNewObject()
+    protected boolean addNewObject()
     {
-        PrescriptionPriority prescriptionPriority = new PrescriptionPriority();
         try
         {
+            PrescriptionPriority prescriptionPriority = new PrescriptionPriority();
             objectBinder.writeBean(prescriptionPriority);
-            return prescriptionPriorityDao.create(prescriptionPriority) ? prescriptionPriority : null;
+            return prescriptionPriorityDao.create(prescriptionPriority);
         }
         catch (ValidationException e)
         {
             LOG.error("Error occured during adding a new prescription priority.");
         }
 
-        return null;
+        return false;
     }
 
     @Override
-    protected PrescriptionPriority editObject()
+    protected boolean editObject()
     {
-        PrescriptionPriority prescriptionPriority = new PrescriptionPriority();
         try
         {
+            PrescriptionPriority prescriptionPriority = new PrescriptionPriority();
             objectBinder.writeBean(prescriptionPriority);
-            return prescriptionPriorityDao.update(prescriptionPriority) ? prescriptionPriority : null;
+            return prescriptionPriorityDao.update(prescriptionPriority);
         }
         catch (ValidationException e)
         {
             LOG.error("Error occured during updating a new prescription priority.");
         }
 
-        return null;
+        return false;
     }
 }

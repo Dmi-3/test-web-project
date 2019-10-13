@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class ConnectionService
 {
     private static final Logger LOG = Logger.getLogger(ConnectionService.class);
-    private static final String dbPath = "res:/db/hsqlDb";
+    private static final String dbPath = "res:/hsqlDb/hsqlDb";
     private Connection connection;
 
     public synchronized Connection getConnection()

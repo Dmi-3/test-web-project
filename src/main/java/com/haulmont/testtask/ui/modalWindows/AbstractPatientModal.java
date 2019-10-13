@@ -36,36 +36,36 @@ public abstract class AbstractPatientModal extends AbstractModalWindow<Patient>
         objectBinder.bind(phoneField, Patient::getPhone, Patient::setPhone);
     }
 
-    protected Patient addNewObject()
+    protected boolean addNewObject()
     {
-        Patient patient = new Patient();
         try
         {
+            Patient patient = new Patient();
             objectBinder.writeBean(patient);
-            return patientDao.create(patient) ? patient : null;
+            return patientDao.create(patient);
         }
         catch (ValidationException e)
         {
             LOG.error("Error occured during adding a new patient.");
         }
 
-        return null;
+        return false;
     }
 
     @Override
-    protected Patient editObject()
+    protected boolean editObject()
     {
         Patient patient = new Patient();
         try
         {
             objectBinder.writeBean(patient);
-            return patientDao.update(patient) ? patient : null;
+            return patientDao.update(patient);
         }
         catch (ValidationException e)
         {
             LOG.error("Error occured during adding a new patient.");
         }
 
-        return null;
+        return false;
     }
 }

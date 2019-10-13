@@ -1,10 +1,13 @@
 package com.haulmont.testtask.ui;
 
 import com.haulmont.testtask.db.dao.PatientDao;
+import com.haulmont.testtask.model.Doctor;
 import com.haulmont.testtask.model.Patient;
 import com.haulmont.testtask.ui.modalWindows.AbstractModalWindow;
 import com.haulmont.testtask.ui.modalWindows.editModals.UpdatePatientModal;
 import com.haulmont.testtask.ui.modalWindows.saveModals.AddPatientModal;
+import com.vaadin.shared.ui.grid.HeightMode;
+import com.vaadin.ui.Grid;
 
 public class PatientForm extends AbstractForm<Patient>
 {
@@ -12,6 +15,7 @@ public class PatientForm extends AbstractForm<Patient>
 
     public PatientForm()
     {
+        super();
         patientDao = new PatientDao();
 
         generateHeaderPage("Patients");
@@ -20,12 +24,14 @@ public class PatientForm extends AbstractForm<Patient>
 
     protected void generateTableObjects()
     {
+        objectsGrid = new Grid<>(Patient.class);
         objectsGrid.setItems(patientDao.getAll());
-        objectsGrid.removeColumn(PatientColumn.ID.getName());
         objectsGrid.setColumns(PatientColumn.FIRST_NAME.getName(), PatientColumn.LAST_NAME.getName(),
                 PatientColumn.PATRONYMIC.getName(), PatientColumn.PHONE.getName());
         objectsGrid.addComponentColumn(this::generateUpdateRowButton);
         objectsGrid.addComponentColumn(this::generateRemoveRowButton);
+        objectsGrid.setHeightMode(HeightMode.ROW);
+        objectsGrid.setWidth("800px");
         addComponent(objectsGrid);
     }
 

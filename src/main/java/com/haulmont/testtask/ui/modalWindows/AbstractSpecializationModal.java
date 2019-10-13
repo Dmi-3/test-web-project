@@ -29,36 +29,36 @@ public class AbstractSpecializationModal extends AbstractModalWindow<Specializat
     }
 
     @Override
-    protected Specialization addNewObject()
+    protected boolean addNewObject()
     {
         Specialization specialization = new Specialization();
         try
         {
             objectBinder.writeBean(specialization);
-            return specializationDao.create(specialization) ? specialization : null;
+            return specializationDao.create(specialization);
         }
         catch (ValidationException e)
         {
             LOG.error("Error occured during adding a new specialization.");
         }
 
-        return null;
+        return false;
     }
 
     @Override
-    protected Specialization editObject()
+    protected boolean editObject()
     {
-        Specialization specialization = new Specialization();
         try
         {
+            Specialization specialization = new Specialization();
             objectBinder.writeBean(specialization);
-            return specializationDao.create(specialization) ? specialization : null;
+            return specializationDao.create(specialization);
         }
         catch (ValidationException e)
         {
             LOG.error("Error occured during updating a new specialization.");
         }
 
-        return null;
+        return false;
     }
 }

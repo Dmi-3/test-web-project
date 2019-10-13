@@ -45,37 +45,37 @@ public abstract class AbstractDoctorModal extends AbstractModalWindow<Doctor>
         objectBinder.bind(specializationsField, Doctor::getSpecialization, Doctor::setSpecialization);
     }
 
-    protected Doctor addNewObject()
+    protected boolean addNewObject()
     {
-        Doctor doctor = new Doctor();
         try
         {
+            Doctor doctor = new Doctor();
             objectBinder.writeBean(doctor);
-            return doctorDao.create(doctor) ? doctor : null;
+            return doctorDao.create(doctor);
         }
         catch (ValidationException e)
         {
             LOG.error("Error occured during adding a new doctor.");
         }
 
-        return null;
+        return false;
     }
 
     @Override
-    protected Doctor editObject()
+    protected boolean editObject()
     {
-        Doctor doctor = new Doctor();
         try
         {
+            Doctor doctor = new Doctor();
             objectBinder.writeBean(doctor);
-            return doctorDao.update(doctor) ? doctor : null;
+            return doctorDao.update(doctor);
         }
         catch (ValidationException e)
         {
             LOG.error("Error occured during adding a new doctor.");
         }
 
-        return null;
+        return false;
     }
 
 }

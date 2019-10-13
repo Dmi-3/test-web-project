@@ -6,6 +6,7 @@ import com.haulmont.testtask.model.Doctor;
 import com.haulmont.testtask.ui.modalWindows.AbstractModalWindow;
 import com.haulmont.testtask.ui.modalWindows.editModals.UpdateDoctorModal;
 import com.haulmont.testtask.ui.modalWindows.saveModals.AddDoctorModal;
+import com.vaadin.ui.Grid;
 
 public class DoctorForm extends AbstractForm<Doctor>
 {
@@ -22,10 +23,11 @@ public class DoctorForm extends AbstractForm<Doctor>
     @Override
     protected void generateTableObjects()
     {
+        objectsGrid = new Grid<>(Doctor.class);
+        objectsGrid.setSizeFull();
         objectsGrid.setItems(doctorDao.getAll());
-        objectsGrid.removeColumn(DoctorColumn.ID.getName());
-        objectsGrid.setColumns(DoctorColumn.FIRST_NAME.getName(), DoctorColumn.LAST_NAME.getName(),
-                DoctorColumn.PATRONYMIC.getName(), DoctorColumn.SPECIALIZATION.getName());
+        objectsGrid.setColumns(DoctorForm.DoctorColumn.FIRST_NAME.getName(), DoctorForm.DoctorColumn.LAST_NAME.getName(),
+                DoctorForm.DoctorColumn.PATRONYMIC.getName(), DoctorColumn.SPECIALIZATION.getName());
         objectsGrid.addComponentColumn(this::generateUpdateRowButton);
         objectsGrid.addComponentColumn(this::generateRemoveRowButton);
         addComponent(objectsGrid);

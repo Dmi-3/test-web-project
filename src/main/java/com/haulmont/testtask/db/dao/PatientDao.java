@@ -98,16 +98,11 @@ public class PatientDao implements ObjectDao<Patient>
     public boolean create(Patient patient)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlUpdateRequest = String.format("INSERT INTO patients(first_name, last_name, patronymic, phone) values ('%s', '%s', '%s', '%s')",
+        String sqlUpdateRequest = String.format("INSERT INTO patients(first_name, last_name, patronymic, phone) VALUES ('%s', '%s', '%s', '%s')",
                 patient.getFirstName(), patient.getLastName(), patient.getPatronymic(), patient.getPhone());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-            {
-                patient.setId(resultSet.getLong("id"));
-                return true;
-            }
+            return preparedStatement.execute();
         }
         catch (SQLException ex)
         {
@@ -120,11 +115,12 @@ public class PatientDao implements ObjectDao<Patient>
     public boolean update(Patient patient)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlUpdateRequest = String.format("UPDATE patients SET first_name = '%s', last_name = '%s', patronymic = '%s', phone = '%s' WHERE id = %d)",
+        String sqlUpdateRequest = String.format("UPDATE patients SET first_name = '%s', last_name = '%s', patronymic = '%s', phone = '%s' WHERE id = %d",
                 patient.getFirstName(), patient.getLastName(), patient.getPatronymic(), patient.getPhone(), patient.getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
-            return preparedStatement.execute();
+            preparedStatement.executeUpdate();
+            return true;
         }
         catch (SQLException ex)
         {

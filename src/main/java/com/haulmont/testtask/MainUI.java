@@ -1,7 +1,6 @@
 package com.haulmont.testtask;
 
-import com.haulmont.testtask.ui.DoctorForm;
-import com.haulmont.testtask.ui.PatientForm;
+import com.haulmont.testtask.ui.*;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
@@ -15,8 +14,6 @@ public class MainUI extends UI
     @Override
     protected void init(VaadinRequest request)
     {
-        //Configures
-        setSizeFull();
         //
         mainLayout = new VerticalLayout();
         addHeader();
@@ -36,7 +33,6 @@ public class MainUI extends UI
     {
         VerticalLayout content = new VerticalLayout();
         VerticalLayout navBar = new VerticalLayout();
-        Panel panel = new Panel();
 
         Button doctorsFormBtn = new Button("Doctors");
         doctorsFormBtn.addClickListener(clickEvent ->
@@ -57,25 +53,26 @@ public class MainUI extends UI
         prescriptionstFormBtn.addClickListener(clickEvent ->
         {
             content.removeAllComponents();
-            content.addComponent(new PatientForm());
+            content.addComponent(new PrescriptionForm());
         });
 
         Button prescriptionPrioritiesFormBtn = new Button("Prescription Priorities");
         prescriptionstFormBtn.addClickListener(clickEvent ->
         {
             content.removeAllComponents();
-            content.addComponent(new PatientForm());
+            content.addComponent(new PrescriptionPriorityForm());
         });
 
         Button specializations = new Button("Specializations");
         prescriptionstFormBtn.addClickListener(clickEvent ->
         {
             content.removeAllComponents();
-            content.addComponent(new PatientForm());
+            content.addComponent(new SpecializationForm());
         });
 
         navBar.addComponents(doctorsFormBtn, patientsFormBtn, prescriptionstFormBtn, prescriptionPrioritiesFormBtn, specializations);
         HorizontalLayout center = new HorizontalLayout();
+        content.setSizeFull();
         center.addComponents(navBar, content);
         mainLayout.addComponent(center);
     }

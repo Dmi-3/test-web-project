@@ -49,36 +49,36 @@ public class AbstractPrescriptionModal extends AbstractModalWindow<Prescription>
         objectBinder.bind(prescriptionPriorityField, Prescription::getPrescriptionPriority, Prescription::setPrescriptionPriority);
     }
 
-    protected Prescription addNewObject()
+    protected boolean addNewObject()
     {
-        Prescription prescription = new Prescription();
         try
         {
+            Prescription prescription = new Prescription();
             objectBinder.writeBean(prescription);
-            return prescriptionDao.create(prescription) ? prescription : null;
+            return prescriptionDao.create(prescription);
         }
         catch (ValidationException e)
         {
             LOG.error("Error occured during adding a new prescription.");
         }
 
-        return null;
+        return false;
     }
 
     @Override
-    protected Prescription editObject()
+    protected boolean editObject()
     {
-        Prescription prescription = new Prescription();
         try
         {
+            Prescription prescription = new Prescription();
             objectBinder.writeBean(prescription);
-            return prescriptionDao.update(prescription) ? prescription : null;
+            return prescriptionDao.update(prescription);
         }
         catch (ValidationException e)
         {
             LOG.error("Error occured during adding a new prescription.");
         }
 
-        return null;
+        return false;
     }
 }
