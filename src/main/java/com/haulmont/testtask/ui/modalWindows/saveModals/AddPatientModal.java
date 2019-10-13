@@ -7,10 +7,6 @@ public class AddPatientModal extends AbstractPatientModal
     public AddPatientModal()
     {
         super();
-        //Window configures
-        setModal(true);
-        setClosable(true);
-
         //Generate components
         initFieldsAndBind();
         addSaveButton();

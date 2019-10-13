@@ -9,7 +9,7 @@ public abstract class AbstractForm<T> extends VerticalLayout
 {
     Grid<T> objectsGrid = new Grid<>();
 
-    void generateHeaderPage(String pageLabelName)
+    protected void generateHeaderPage(String pageLabelName)
     {
         HorizontalLayout headerPatientView = new HorizontalLayout();
 
@@ -26,11 +26,9 @@ public abstract class AbstractForm<T> extends VerticalLayout
         addComponent(headerPatientView);
     }
 
-    abstract AbstractModalWindow getAddModalObject();
+    protected abstract void generateTableObjects();
 
-    abstract void generateTableObjects();
-
-    Button generateUpdateRowButton(T object)
+    protected Button generateUpdateRowButton(T object)
     {
         Button button = new Button(VaadinIcons.CLOSE_SMALL);
         button.addStyleName(ValoTheme.BUTTON_SMALL);
@@ -42,9 +40,10 @@ public abstract class AbstractForm<T> extends VerticalLayout
         return button;
     }
 
-    abstract AbstractModalWindow getUpdateModalObject(T object);
+    protected abstract AbstractModalWindow getAddModalObject();
+    protected abstract AbstractModalWindow getUpdateModalObject(T object);
 
-    Button generateRemoveRowButton(T object)
+    protected Button generateRemoveRowButton(T object)
     {
         Button button = new Button(VaadinIcons.CLOSE_SMALL);
         button.addStyleName(ValoTheme.BUTTON_SMALL);
@@ -56,7 +55,5 @@ public abstract class AbstractForm<T> extends VerticalLayout
         return button;
     }
 
-    abstract void removeRow(T object);
-
-
+    protected abstract void removeRow(T object);
 }

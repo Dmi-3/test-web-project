@@ -21,15 +21,6 @@ public abstract class AbstractDoctorModal extends AbstractModalWindow<Doctor>
         super();
         specializationDao = new SpecializationDao();
         doctorDao = new DoctorDao(specializationDao);
-        //Window configures
-        setModal(true);
-        setClosable(true);
-
-        //Generate components
-        initFieldsAndBind();
-        addSaveButton();
-
-        setContent(windowsLayout);
     }
 
     protected void initFieldsAndBind()
@@ -71,7 +62,7 @@ public abstract class AbstractDoctorModal extends AbstractModalWindow<Doctor>
     }
 
     @Override
-    Doctor editObject()
+    protected Doctor editObject()
     {
         Doctor doctor = new Doctor();
         try

@@ -53,7 +53,7 @@ public abstract class AbstractPatientModal extends AbstractModalWindow<Patient>
     }
 
     @Override
-    Patient editObject()
+    protected Patient editObject()
     {
         Patient patient = new Patient();
         try

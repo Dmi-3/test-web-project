@@ -19,7 +19,7 @@ public class AbstractPrescriptionPriorityModal extends AbstractModalWindow<Presc
     }
 
     @Override
-    void initFieldsAndBind()
+    protected void initFieldsAndBind()
     {
         objectBinder = new Binder<>();
 
@@ -28,7 +28,7 @@ public class AbstractPrescriptionPriorityModal extends AbstractModalWindow<Presc
     }
 
     @Override
-    PrescriptionPriority addNewObject()
+    protected PrescriptionPriority addNewObject()
     {
         PrescriptionPriority prescriptionPriority = new PrescriptionPriority();
         try
@@ -45,7 +45,7 @@ public class AbstractPrescriptionPriorityModal extends AbstractModalWindow<Presc
     }
 
     @Override
-    PrescriptionPriority editObject()
+    protected PrescriptionPriority editObject()
     {
         PrescriptionPriority prescriptionPriority = new PrescriptionPriority();
         try

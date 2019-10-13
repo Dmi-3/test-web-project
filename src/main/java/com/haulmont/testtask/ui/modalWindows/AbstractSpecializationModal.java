@@ -20,7 +20,7 @@ public class AbstractSpecializationModal extends AbstractModalWindow<Specializat
     }
 
     @Override
-    void initFieldsAndBind()
+    protected void initFieldsAndBind()
     {
         objectBinder = new Binder<>();
 
@@ -29,7 +29,7 @@ public class AbstractSpecializationModal extends AbstractModalWindow<Specializat
     }
 
     @Override
-    Specialization addNewObject()
+    protected Specialization addNewObject()
     {
         Specialization specialization = new Specialization();
         try
@@ -46,7 +46,7 @@ public class AbstractSpecializationModal extends AbstractModalWindow<Specializat
     }
 
     @Override
-    Specialization editObject()
+    protected Specialization editObject()
     {
         Specialization specialization = new Specialization();
         try

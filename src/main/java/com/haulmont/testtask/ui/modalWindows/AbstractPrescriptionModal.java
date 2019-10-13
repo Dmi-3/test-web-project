@@ -66,7 +66,7 @@ public class AbstractPrescriptionModal extends AbstractModalWindow<Prescription>
     }
 
     @Override
-    Prescription editObject()
+    protected Prescription editObject()
     {
         Prescription prescription = new Prescription();
         try

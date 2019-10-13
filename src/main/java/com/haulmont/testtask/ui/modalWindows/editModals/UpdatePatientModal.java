@@ -8,10 +8,6 @@ public class UpdatePatientModal extends AbstractPatientModal
     public UpdatePatientModal(Patient patient)
     {
         super();
-        //Window configures
-        setModal(true);
-        setClosable(true);
-
         //Generate components
         initFieldsAndBind(patient);
         addUpdateButton();

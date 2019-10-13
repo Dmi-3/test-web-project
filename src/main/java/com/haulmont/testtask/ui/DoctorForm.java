@@ -1,18 +1,78 @@
 package com.haulmont.testtask.ui;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.haulmont.testtask.db.dao.DoctorDao;
+import com.haulmont.testtask.db.dao.SpecializationDao;
+import com.haulmont.testtask.model.Doctor;
+import com.haulmont.testtask.ui.modalWindows.AbstractModalWindow;
+import com.haulmont.testtask.ui.modalWindows.editModals.UpdateDoctorModal;
+import com.haulmont.testtask.ui.modalWindows.saveModals.AddDoctorModal;
 
-public class DoctorForm extends VerticalLayout
+public class DoctorForm extends AbstractForm<Doctor>
 {
+    private DoctorDao doctorDao;
+
     public DoctorForm()
     {
-        Label pageLabel = new Label("Doctors");
-        addComponent(pageLabel);
+        doctorDao = new DoctorDao(new SpecializationDao());
 
-        Grid doctorsGrid = new Grid();
+        generateHeaderPage("Doctors");
+        generateTableObjects();
+    }
 
+    @Override
+    protected void generateTableObjects()
+    {
+        objectsGrid.setItems(doctorDao.getAll());
+        objectsGrid.removeColumn(PatientForm.PatientColumn.ID.getName());
+        objectsGrid.setColumns(DoctorForm.DoctorColumn.FIRST_NAME.getName(), DoctorForm.DoctorColumn.LAST_NAME.getName(),
+                DoctorForm.DoctorColumn.PATRONYMIC.getName(), DoctorColumn.SPECIALIZATION.getName());
+        objectsGrid.addComponentColumn(this::generateUpdateRowButton);
+        objectsGrid.addComponentColumn(this::generateRemoveRowButton);
+        addComponent(objectsGrid);
+    }
+
+    @Override
+    protected AbstractModalWindow getAddModalObject()
+    {
+        return new AddDoctorModal();
+    }
+
+    @Override
+    protected AbstractModalWindow getUpdateModalObject(Doctor doctor)
+    {
+        return new UpdateDoctorModal(doctor);
+    }
+
+    @Override
+    protected void removeRow(Doctor doctor)
+    {
+        if (doctor == null)
+        {
+            return;
+        }
+
+        doctorDao.delete(doctor);
+        objectsGrid.setItems(doctorDao.getAll());
+    }
+
+    public enum DoctorColumn
+    {
+        ID("id"),
+        FIRST_NAME("firstName"),
+        LAST_NAME("lastName"),
+        PATRONYMIC("patronymic"),
+        SPECIALIZATION("specialization");
+
+        private String name;
+
+        DoctorColumn(String name)
+        {
+            this.name = name;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
     }
 }

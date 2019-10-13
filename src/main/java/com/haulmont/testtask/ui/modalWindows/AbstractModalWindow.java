@@ -1,6 +1,5 @@
 package com.haulmont.testtask.ui.modalWindows;
 
-import com.haulmont.testtask.model.Doctor;
 import com.vaadin.data.Binder;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
@@ -12,6 +11,9 @@ public abstract class AbstractModalWindow<T> extends Window
 
     AbstractModalWindow()
     {
+        //Window configures
+        setModal(true);
+        setClosable(true);
         windowsLayout = new VerticalLayout();
     }
 
@@ -92,10 +94,11 @@ public abstract class AbstractModalWindow<T> extends Window
         }
         objectBinder.readBean(object);
     }
+
     protected abstract void initFieldsAndBind();
 
-    abstract T addNewObject();
+    protected abstract T addNewObject();
 
-    abstract T editObject();
+    protected abstract T editObject();
 
 }

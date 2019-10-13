@@ -18,7 +18,7 @@ public class PatientForm extends AbstractForm<Patient>
         generateTableObjects();
     }
 
-    void generateTableObjects()
+    protected void generateTableObjects()
     {
         objectsGrid.setItems(patientDao.getAll());
         objectsGrid.removeColumn(PatientColumn.ID.getName());
@@ -30,19 +30,19 @@ public class PatientForm extends AbstractForm<Patient>
     }
 
     @Override
-    AbstractModalWindow getUpdateModalObject(Patient object)
+    protected AbstractModalWindow getUpdateModalObject(Patient object)
     {
         return new UpdatePatientModal(object);
     }
 
     @Override
-    AbstractModalWindow getAddModalObject()
+    protected AbstractModalWindow getAddModalObject()
     {
         return new AddPatientModal();
     }
 
     @Override
-    void removeRow(Patient patient)
+    protected void removeRow(Patient patient)
     {
         if (patient == null)
         {
