@@ -9,7 +9,7 @@ public class AddPrescriptionModal extends AbstractPrescriptionModal
         super();
         //Generate components
         initFieldsAndBind();
-        addUpdateButton();
+        addSaveButton();
 
         setContent(windowsLayout);
     }

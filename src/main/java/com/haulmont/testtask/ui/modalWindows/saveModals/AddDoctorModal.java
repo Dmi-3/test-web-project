@@ -10,7 +10,7 @@ public class AddDoctorModal extends AbstractDoctorModal
         super();
         //Generate components
         initFieldsAndBind();
-        addUpdateButton();
+        addSaveButton();
 
         setContent(windowsLayout);
     }

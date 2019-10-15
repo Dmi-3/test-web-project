@@ -57,3 +57,29 @@ INSERT INTO patients(first_name, last_name, patronymic, phone) VALUES ('Ivan', '
 INSERT INTO patients(first_name, last_name, patronymic, phone) VALUES ('Anna', 'Petrova', 'Anatolyevna', '+7-(937)-...')
 INSERT INTO patients(first_name, last_name, patronymic, phone) VALUES ('Oskana', 'Sholohova', 'Sergeevna', '+7-(937)-...')
 
+SELECT * from specializations
+
+INSERT INTO specializations(name) VALUES ('Dermatologists')
+INSERT INTO specializations(name) VALUES ('Neurologist')
+INSERT INTO specializations(name) VALUES ('Physician')
+INSERT INTO specializations(name) VALUES ('Surgeon')
+
+SELECT * from prescription_priorities
+
+INSERT INTO prescription_priorities(name) VALUES ('Normal')
+INSERT INTO prescription_priorities(name) VALUES ('Cito')
+INSERT INTO prescription_priorities(name) VALUES ('Statim')
+
+SELECT * from doctors
+
+INSERT INTO doctors(first_name, last_name, patronymic, specialization_id) VALUES ('Sergei', 'Petrov', 'Zhirkovich', 0)
+INSERT INTO doctors(first_name, last_name, patronymic, specialization_id) VALUES ('Anna', 'Elkina', 'Dmitrievna', 1)
+INSERT INTO doctors(first_name, last_name, patronymic, specialization_id) VALUES ('Olga', 'Popova', 'Semenovna', 2)
+INSERT INTO doctors(first_name, last_name, patronymic, specialization_id) VALUES ('Alexei', 'Strahov', 'Alexeevich', 3)
+
+SELECT * from prescriptions
+
+INSERT INTO prescriptions(description, patient_id, doctor_id, prescription_priority_id) VALUES ('Description', 0, 0, 0)
+INSERT INTO prescriptions(description, patient_id, doctor_id, prescription_priority_id) VALUES ('Description2', 1, 1, 1)
+INSERT INTO prescriptions(description, patient_id, doctor_id, prescription_priority_id) VALUES ('Description3', 2, 2, 2)
+--INSERT INTO prescriptions(description, patient_id, doctor_id, prescription_priority_id) VALUES ('Description4', 3, 3, 3) (check fk)

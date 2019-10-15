@@ -9,4 +9,40 @@ create table doctors\u000d\u000a(\u000d\u000a    id bigint identity primary key,
 create table prescriptions\u000d\u000a(\u000d\u000a    id bigint identity primary key,\u000d\u000a    description varchar(255) not null,\u000d\u000a    patient_id bigint not null,\u000d\u000a    doctor_id bigint not null,\u000d\u000a    creating_date timestamp default current_timestamp not null,\u000d\u000a    prescription_priority_id bigint not null,\u000d\u000a\u000d\u000a    constraint fk_patient_id foreign key (patient_id)  references patients (id),\u000d\u000a    constraint fk_doctor_id foreign key (doctor_id)  references doctors (id),\u000d\u000a    constraint fk_prescription_priority_id foreign key (prescription_priority_id)  references prescription_priorities (id)\u000d\u000a)
 INSERT INTO PATIENTS VALUES(0,'Dmitrii','Mikhailov','Sergeevich','+7-(937)-...')
 COMMIT
+INSERT INTO PATIENTS VALUES(1,'Petr','Petrov','Petrovich','+7-(937)-...')
+COMMIT
+INSERT INTO PATIENTS VALUES(2,'Ivan','Ivanov','Ivanovich','+7-(937)-...')
+COMMIT
+INSERT INTO PATIENTS VALUES(3,'Anna','Petrova','Anatolyevna','+7-(937)-...')
+COMMIT
+INSERT INTO PATIENTS VALUES(4,'Oskana','Sholohova','Sergeevna','+7-(937)-...')
+COMMIT
+INSERT INTO SPECIALIZATIONS VALUES(0,'Dermatologists')
+COMMIT
+INSERT INTO SPECIALIZATIONS VALUES(1,'Neurologist')
+COMMIT
+INSERT INTO SPECIALIZATIONS VALUES(2,'Physician')
+COMMIT
+INSERT INTO SPECIALIZATIONS VALUES(3,'Surgeon')
+COMMIT
+INSERT INTO PRESCRIPTION_PRIORITIES VALUES(0,'Normal')
+COMMIT
+INSERT INTO PRESCRIPTION_PRIORITIES VALUES(1,'Cito')
+COMMIT
+INSERT INTO PRESCRIPTION_PRIORITIES VALUES(2,'Statim')
+COMMIT
+INSERT INTO DOCTORS VALUES(0,'Sergei','Petrov','Zhirkovich',0)
+COMMIT
+INSERT INTO DOCTORS VALUES(1,'Anna','Elkina','Dmitrievna',1)
+COMMIT
+INSERT INTO DOCTORS VALUES(2,'Olga','Popova','Semenovna',2)
+COMMIT
+INSERT INTO DOCTORS VALUES(3,'Alexei','Strahov','Alexeevich',3)
+COMMIT
+INSERT INTO PRESCRIPTIONS VALUES(0,'Description',0,0,'2019-10-15 23:02:41.559000',0)
+COMMIT
+INSERT INTO PRESCRIPTIONS VALUES(1,'Description2',1,1,'2019-10-15 23:02:41.559000',1)
+COMMIT
+INSERT INTO PRESCRIPTIONS VALUES(2,'Description3',2,2,'2019-10-15 23:02:41.559000',2)
+COMMIT
 DISCONNECT

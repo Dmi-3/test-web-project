@@ -31,16 +31,22 @@ public abstract class AbstractPatientModal extends AbstractModalWindow<Patient>
         idField.setVisible(false);
 
         TextField firstNameField = addTextField("Field Name");
-        objectBinder.bind(firstNameField, Patient::getFirstName, Patient::setFirstName);
+        objectBinder.forField(firstNameField)
+                .asRequired()
+                .bind(Patient::getFirstName, Patient::setFirstName);
 
         TextField lastNameField = addTextField("Last Name");
-        objectBinder.bind(lastNameField, Patient::getLastName, Patient::setLastName);
+        objectBinder.forField(lastNameField)
+                .asRequired()
+                .bind(Patient::getLastName, Patient::setLastName);
 
         TextField patronymicField = addTextField("Patronymic");
         objectBinder.bind(patronymicField, Patient::getPatronymic, Patient::setPatronymic);
 
         TextField phoneField = addTextField("Phone");
-        objectBinder.bind(phoneField, Patient::getPhone, Patient::setPhone);
+        objectBinder.forField(phoneField)
+                .asRequired()
+                .bind(Patient::getPhone, Patient::setPhone);
     }
 
     protected boolean addNewObject()

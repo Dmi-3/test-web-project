@@ -109,8 +109,8 @@ public class SpecializationDao implements ObjectDao<Specialization>
     public boolean update(Specialization specialization)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlCreateRequest = String.format("INSERT INTO specializations(name) "
-                + "values ('%s')", specialization.getName());
+        String sqlCreateRequest = String.format("UPDATE specializations SET name = '%s' where id = %d",
+                specialization.getName(), specialization.getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
             preparedStatement.executeUpdate();
@@ -127,8 +127,7 @@ public class SpecializationDao implements ObjectDao<Specialization>
     public boolean delete(Specialization specialization)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlUpdateRequest = String.format("DELETE specializations SET name = '%s' WHERE id = %d",
-                specialization.getName(), specialization.getId());
+        String sqlUpdateRequest = String.format("DELETE FROM specializations WHERE id = %d", specialization.getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
             preparedStatement.execute();

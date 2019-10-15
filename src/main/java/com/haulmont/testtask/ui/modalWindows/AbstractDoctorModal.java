@@ -4,9 +4,11 @@ import com.haulmont.testtask.db.dao.DoctorDao;
 import com.haulmont.testtask.db.dao.SpecializationDao;
 import com.haulmont.testtask.model.Doctor;
 import com.haulmont.testtask.model.Specialization;
+import com.sun.org.apache.xerces.internal.impl.dv.dtd.StringDatatypeValidator;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
 import com.vaadin.data.converter.StringToLongConverter;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 import org.apache.log4j.Logger;
@@ -35,17 +37,24 @@ public abstract class AbstractDoctorModal extends AbstractModalWindow<Doctor>
         idField.setVisible(false);
 
         TextField firstNameField = addTextField("Field Name");
-        objectBinder.bind(firstNameField, Doctor::getFirstName, Doctor::setFirstName);
+        objectBinder.forField(firstNameField)
+                .asRequired()
+                .bind(Doctor::getFirstName, Doctor::setFirstName);
 
         TextField lastNameField = addTextField("Last Name");
-        objectBinder.bind(lastNameField, Doctor::getLastName, Doctor::setLastName);
+        objectBinder.forField(lastNameField)
+                .asRequired()
+                .bind(Doctor::getLastName, Doctor::setLastName);
 
         TextField patronymicField = addTextField("Patronymic");
-        objectBinder.bind(patronymicField, Doctor::getPatronymic, Doctor::setPatronymic);
+        objectBinder.forField(patronymicField)
+                .bind(Doctor::getPatronymic, Doctor::setPatronymic);
 
         ComboBox<Specialization> specializationsField = addComboBox("Specialization", specializationDao.getAll());
         specializationsField.setItemCaptionGenerator(Specialization::getName);
-        objectBinder.bind(specializationsField, Doctor::getSpecialization, Doctor::setSpecialization);
+        objectBinder.forField(specializationsField)
+                .asRequired()
+                .bind(Doctor::getSpecialization, Doctor::setSpecialization);
     }
 
     protected boolean addNewObject()

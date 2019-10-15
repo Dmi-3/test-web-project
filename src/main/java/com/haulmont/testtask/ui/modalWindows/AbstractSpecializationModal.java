@@ -1,6 +1,7 @@
 package com.haulmont.testtask.ui.modalWindows;
 
 import com.haulmont.testtask.db.dao.SpecializationDao;
+import com.haulmont.testtask.model.PrescriptionPriority;
 import com.haulmont.testtask.model.Specialization;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
@@ -32,7 +33,9 @@ public class AbstractSpecializationModal extends AbstractModalWindow<Specializat
         idField.setVisible(false);
 
         TextField firstNameField = addTextField("Name");
-        objectBinder.bind(firstNameField, Specialization::getName, Specialization::setName);
+        objectBinder.forField(firstNameField)
+                .asRequired()
+                .bind(Specialization::getName, Specialization::setName);
     }
 
     @Override
@@ -59,7 +62,7 @@ public class AbstractSpecializationModal extends AbstractModalWindow<Specializat
         {
             Specialization specialization = new Specialization();
             objectBinder.writeBean(specialization);
-            return specializationDao.create(specialization);
+            return specializationDao.update(specialization);
         }
         catch (ValidationException e)
         {

@@ -26,8 +26,12 @@ public class DoctorForm extends AbstractForm<Doctor>
         objectsGrid = new Grid<>(Doctor.class);
         objectsGrid.setWidth("800px");
         objectsGrid.setItems(doctorDao.getAll());
+        objectsGrid.addColumn(doctor -> doctor.getSpecialization().getName()).setCaption("").setId("");
         objectsGrid.setColumns(DoctorForm.DoctorColumn.FIRST_NAME.getName(), DoctorForm.DoctorColumn.LAST_NAME.getName(),
-                DoctorForm.DoctorColumn.PATRONYMIC.getName(), DoctorColumn.SPECIALIZATION.getName());
+                DoctorForm.DoctorColumn.PATRONYMIC.getName());
+        objectsGrid.addColumn(doctor -> doctor.getSpecialization().getName())
+                .setCaption("Specialization")
+                .setId(DoctorColumn.SPECIALIZATION.getName());
         objectsGrid.addComponentColumn(this::generateUpdateRowButton);
         objectsGrid.addComponentColumn(this::generateRemoveRowButton);
         addComponent(objectsGrid);

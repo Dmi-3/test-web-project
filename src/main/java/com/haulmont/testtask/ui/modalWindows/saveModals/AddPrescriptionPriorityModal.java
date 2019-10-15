@@ -9,7 +9,7 @@ public class AddPrescriptionPriorityModal extends AbstractPrescriptionPriorityMo
         super();
         //Generate components
         initFieldsAndBind();
-        addUpdateButton();
+        addSaveButton();
 
         setContent(windowsLayout);
     }

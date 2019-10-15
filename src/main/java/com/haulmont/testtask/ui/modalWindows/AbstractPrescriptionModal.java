@@ -11,6 +11,7 @@ import com.vaadin.data.converter.StringToLongConverter;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 public class AbstractPrescriptionModal extends AbstractModalWindow<Prescription>
@@ -42,16 +43,27 @@ public class AbstractPrescriptionModal extends AbstractModalWindow<Prescription>
         idField.setVisible(false);
 
         TextArea descriptionField = addTextArea("Description");
-        objectBinder.bind(descriptionField, Prescription::getDescription, Prescription::setDescription);
+        objectBinder.forField(descriptionField)
+                .asRequired()
+                .bind(Prescription::getDescription, Prescription::setDescription);
 
         ComboBox<Patient> patientField = addComboBox("Patient", patientDao.getAll());
-        objectBinder.bind(patientField, Prescription::getPatient, Prescription::setPatient);
+        patientField.setItemCaptionGenerator(patient -> patient.getFirstName() + StringUtils.SPACE + patient.getLastName());
+        objectBinder.forField(patientField)
+                .asRequired()
+                .bind(Prescription::getPatient, Prescription::setPatient);
 
         ComboBox<Doctor> doctorField = addComboBox("Doctor", doctorDao.getAll());
-        objectBinder.bind(doctorField, Prescription::getDoctor, Prescription::setDoctor);
+        doctorField.setItemCaptionGenerator(doctor -> doctor.getFirstName() + StringUtils.SPACE + doctor.getLastName());
+        objectBinder.forField(doctorField)
+                .asRequired()
+                .bind(Prescription::getDoctor, Prescription::setDoctor);
 
         ComboBox<PrescriptionPriority> prescriptionPriorityField = addComboBox("Prescription Priority", prescriptionPriorityDao.getAll());
-        objectBinder.bind(prescriptionPriorityField, Prescription::getPrescriptionPriority, Prescription::setPrescriptionPriority);
+        prescriptionPriorityField.setItemCaptionGenerator(PrescriptionPriority::getName);
+        objectBinder.forField(prescriptionPriorityField)
+                .asRequired()
+                .bind(Prescription::getPrescriptionPriority, Prescription::setPrescriptionPriority);
     }
 
     protected boolean addNewObject()
@@ -60,7 +72,7 @@ public class AbstractPrescriptionModal extends AbstractModalWindow<Prescription>
         {
             Prescription prescription = new Prescription();
             objectBinder.writeBean(prescription);
-            return prescriptionDao.create(prescription);
+                return prescriptionDao.create(prescription);
         }
         catch (ValidationException e)
         {

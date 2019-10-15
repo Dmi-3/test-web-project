@@ -32,7 +32,9 @@ public class AbstractPrescriptionPriorityModal extends AbstractModalWindow<Presc
         idField.setVisible(false);
 
         TextField firstNameField = addTextField("Name");
-        objectBinder.bind(firstNameField, PrescriptionPriority::getName, PrescriptionPriority::setName);
+        objectBinder.forField(firstNameField)
+                .asRequired()
+                .bind(PrescriptionPriority::getName, PrescriptionPriority::setName);
     }
 
     @Override

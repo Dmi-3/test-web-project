@@ -90,7 +90,7 @@ public class PrescriptionDao implements ObjectDao<Prescription>
             Long id = resultSet.getLong("id");
             String description = resultSet.getString("description");
 
-            Long patientId = resultSet.getLong("patient_id");
+            Long patientId = resultSet.getLong("patient_id"); //todo: заменить на значения с enum
             Patient patient = patientDao.getById(patientId);
 
             Long doctorId = resultSet.getLong("doctor_id");
@@ -98,7 +98,7 @@ public class PrescriptionDao implements ObjectDao<Prescription>
 
             Date creatingDate = resultSet.getDate("creating_date");
 
-            Long prescriptionPriorityId = resultSet.getLong("prescription_priority_id bigint");
+            Long prescriptionPriorityId = resultSet.getLong("prescription_priority_id");
             PrescriptionPriority prescriptionPriority = prescriptionPriorityDao.getById(prescriptionPriorityId);
 
             return new Prescription(id, description, patient, doctor, creatingDate, prescriptionPriority);
@@ -115,13 +115,14 @@ public class PrescriptionDao implements ObjectDao<Prescription>
     public boolean create(Prescription prescription)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlCreateRequest = String.format("INSERT INTO prescriptions(description, patient_id, doctor_id, creating_date, prescription_priority_id) "
-                        + "values ('%s', '%s', '%s', '%s', '%s')",
+        String sqlCreateRequest = String.format("INSERT INTO prescriptions(description, patient_id, doctor_id, prescription_priority_id) "
+                        + "values ('%s', '%s', '%s', '%s')",
                 prescription.getDescription(), prescription.getPatient().getId(), prescription.getDoctor().getId(),
-                prescription.getCreatingDate(), prescription.getPrescriptionPriority().getId());
+                prescription.getPrescriptionPriority().getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
             preparedStatement.execute();
+            return true;
         }
         catch (SQLException ex)
         {

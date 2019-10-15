@@ -109,8 +109,8 @@ public class PrescriptionPriorityDao implements ObjectDao<PrescriptionPriority>
     public boolean update(PrescriptionPriority prescriptionPriority)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlCreateRequest = String.format("INSERT INTO prescription_priorities(first_name, last_name, patronymic, specialization_id) "
-                + "values ('%s')", prescriptionPriority.getName());
+        String sqlCreateRequest = String.format("UPDATE prescription_priorities SET name = '%s' where id = %d",
+                prescriptionPriority.getName(), prescriptionPriority.getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlCreateRequest))
         {
             preparedStatement.executeUpdate();
@@ -127,8 +127,7 @@ public class PrescriptionPriorityDao implements ObjectDao<PrescriptionPriority>
     public boolean delete(PrescriptionPriority prescriptionPriority)
     {
         Connection connection = new ConnectionService().getConnection();
-        String sqlUpdateRequest = String.format("DELETE prescription_priorities SET name = '%s' WHERE id = %d",
-                prescriptionPriority.getName(), prescriptionPriority.getId());
+        String sqlUpdateRequest = String.format("DELETE FROM prescription_priorities WHERE id = %d", prescriptionPriority.getId());
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
             preparedStatement.execute();
