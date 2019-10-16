@@ -62,7 +62,8 @@ public class PrescriptionPriorityForm extends AbstractForm<PrescriptionPriority>
             return;
         }
 
-        prescriptionPriorityDao.delete(prescriptionPriority);
+        boolean isObjectDeleted =  prescriptionPriorityDao.delete(prescriptionPriority);
+        generateNotification(isObjectDeleted);
         objectsGrid.setItems(prescriptionPriorityDao.getAll());
     }
 

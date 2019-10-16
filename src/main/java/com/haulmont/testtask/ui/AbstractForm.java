@@ -2,6 +2,7 @@ package com.haulmont.testtask.ui;
 
 import com.haulmont.testtask.ui.modalWindows.AbstractModalWindow;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -54,6 +55,24 @@ public abstract class AbstractForm<T> extends VerticalLayout
         });
 
         return button;
+    }
+
+    protected void generateNotification(boolean isOperationSuccess)
+    {
+        Notification notification = new Notification("");
+        notification.setDelayMsec(1000);
+        notification.setPosition(Position.TOP_RIGHT);
+
+        if (isOperationSuccess)
+        {
+            notification.setDescription("Operation successfully completed");
+        }
+        else
+        {
+            notification.setDescription("Operation was not completed because of occured errors.");
+        }
+
+        notification.show(UI.getCurrent().getPage());
     }
 
     protected abstract void removeRow(T object);

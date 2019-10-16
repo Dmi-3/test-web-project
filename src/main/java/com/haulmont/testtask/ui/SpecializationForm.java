@@ -17,13 +17,14 @@ public class SpecializationForm extends AbstractForm<Specialization>
 
         generateHeaderPage("Specializations");
         generateTableObjects();
+        setWidth("100%");
     }
 
     @Override
     protected void generateTableObjects()
     {
         objectsGrid = new Grid<>(Specialization.class);
-        objectsGrid.setWidth("800px");
+        objectsGrid.setHeightByRows(10);
         objectsGrid.setItems(specializationDao.getAll());
         objectsGrid.setColumns(SpecializationColumn.NAME.getName());
         objectsGrid.addComponentColumn(this::generateUpdateRowButton);
@@ -61,7 +62,8 @@ public class SpecializationForm extends AbstractForm<Specialization>
             return;
         }
 
-        specializationDao.delete(specialization);
+        boolean isObjectDeleted = specializationDao.delete(specialization);
+        generateNotification(isObjectDeleted);
         objectsGrid.setItems(specializationDao.getAll());
     }
 

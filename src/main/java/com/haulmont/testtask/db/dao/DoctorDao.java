@@ -115,7 +115,7 @@ public class DoctorDao implements ObjectDao<Doctor>
         }
         catch (SQLException ex)
         {
-            LOG.error("Error occured during getting info from DataBase.", ex);
+            LOG.error("Error occured during creating new object in DataBase.", ex);
         }
         return false;
     }
@@ -133,7 +133,7 @@ public class DoctorDao implements ObjectDao<Doctor>
         }
         catch (SQLException ex)
         {
-            LOG.error("Error occured during getting info from DataBase.", ex);
+            LOG.error("Error occured during updating object in DataBase.", ex);
         }
         return false;
     }
@@ -150,7 +150,7 @@ public class DoctorDao implements ObjectDao<Doctor>
         }
         catch (SQLException ex)
         {
-            LOG.error("Error occured during getting info from DataBase.", ex);
+            LOG.error("Error occured during deleting new object in DataBase.", ex);
         }
         return false;
     }

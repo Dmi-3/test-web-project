@@ -67,7 +67,8 @@ public class DoctorForm extends AbstractForm<Doctor>
             return;
         }
 
-        doctorDao.delete(doctor);
+        boolean isObjectDeleted = doctorDao.delete(doctor);
+        generateNotification(isObjectDeleted);
         objectsGrid.setItems(doctorDao.getAll());
     }
 

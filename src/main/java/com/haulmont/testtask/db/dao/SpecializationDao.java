@@ -100,7 +100,7 @@ public class SpecializationDao implements ObjectDao<Specialization>
         }
         catch (SQLException ex)
         {
-            LOG.error("Error occured during getting info from DataBase.", ex);
+            LOG.error("Error occured during creating new object in DataBase.", ex);
         }
         return false;
     }
@@ -118,7 +118,7 @@ public class SpecializationDao implements ObjectDao<Specialization>
         }
         catch (SQLException ex)
         {
-            LOG.error("Error occured during getting info from DataBase.", ex);
+            LOG.error("Error occured during updating object in DataBase.", ex);
         }
         return false;
     }
@@ -135,7 +135,7 @@ public class SpecializationDao implements ObjectDao<Specialization>
         }
         catch (SQLException ex)
         {
-            LOG.error("Error occured during getting info from DataBase.", ex);
+            LOG.error("Error occured during deleting object in DataBase.", ex);
         }
         return false;
     }

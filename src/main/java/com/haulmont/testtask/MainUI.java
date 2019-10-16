@@ -16,9 +16,10 @@ public class MainUI extends UI
     {
         //
         mainLayout = new VerticalLayout();
+        mainLayout.setMargin(true);
+        mainLayout.setSpacing(true);
         addHeader();
         addCenter();
-        addFooter();
         setContent(mainLayout);
     }
 
@@ -46,7 +47,6 @@ public class MainUI extends UI
         {
             content.removeAllComponents();
             content.addComponent(new PatientForm());
-
         });
 
         Button prescriptionstFormBtn = new Button("Prescriptions");

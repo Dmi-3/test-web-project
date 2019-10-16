@@ -31,7 +31,8 @@ public class PrescriptionForm extends AbstractForm<Prescription>
     protected void generateTableObjects()
     {
         objectsGrid = new Grid<>(Prescription.class);
-        objectsGrid.setWidth("800px");
+        objectsGrid.setWidthUndefined();
+        objectsGrid.setHeightByRows(10);
         Collection<Prescription> prescriptions = prescriptionDao.getAll();
         ListDataProvider<Prescription> dataProvider = new ListDataProvider<>(prescriptions);
         objectsGrid.setDataProvider(dataProvider);
@@ -94,7 +95,8 @@ public class PrescriptionForm extends AbstractForm<Prescription>
             return;
         }
 
-        prescriptionDao.delete(prescription);
+        boolean isObjectDeleted = prescriptionDao.delete(prescription);
+        generateNotification(isObjectDeleted);
         objectsGrid.setItems(prescriptionDao.getAll());
     }
 

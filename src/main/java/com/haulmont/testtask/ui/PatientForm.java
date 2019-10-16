@@ -64,7 +64,8 @@ public class PatientForm extends AbstractForm<Patient>
             return;
         }
 
-        patientDao.delete(patient);
+        boolean isObjectDeleted = patientDao.delete(patient);
+        generateNotification(isObjectDeleted);
         objectsGrid.setItems(patientDao.getAll());
     }
 

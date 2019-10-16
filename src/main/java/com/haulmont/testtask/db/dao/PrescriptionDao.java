@@ -126,7 +126,7 @@ public class PrescriptionDao implements ObjectDao<Prescription>
         }
         catch (SQLException ex)
         {
-            LOG.error("Error occured during getting info from DataBase.", ex);
+            LOG.error("Error occured during creating new object in DataBase.", ex);
         }
         return false;
     }
@@ -136,9 +136,9 @@ public class PrescriptionDao implements ObjectDao<Prescription>
     {
         Connection connection = new ConnectionService().getConnection();
         String sqlUpdateRequest = String.format("UPDATE prescriptions SET description = '%s', patient_id = '%d', doctor_id = '%d',"
-                        + " creating_date = '%s', prescription_priority_id = '%d' WHERE id = %d",
+                        + "prescription_priority_id = '%d' WHERE id = %d",
                 prescription.getDescription(), prescription.getPatient().getId(), prescription.getDoctor().getId(),
-                prescription.getCreatingDate(), prescription.getPrescriptionPriority().getId(), prescription.getId());
+                prescription.getPrescriptionPriority().getId(), prescription.getId());
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateRequest))
         {
@@ -147,7 +147,7 @@ public class PrescriptionDao implements ObjectDao<Prescription>
         }
         catch (SQLException ex)
         {
-            LOG.error("Error occured during getting info from DataBase.", ex);
+            LOG.error("Error occured during updating object in DataBase.", ex);
         }
         return false;
     }
@@ -164,7 +164,7 @@ public class PrescriptionDao implements ObjectDao<Prescription>
         }
         catch (SQLException ex)
         {
-            LOG.error("Error occured during getting info from DataBase.", ex);
+            LOG.error("Error occured during deleting object in DataBase.", ex);
         }
         return false;
     }
