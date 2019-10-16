@@ -9,29 +9,10 @@ import com.vaadin.ui.themes.ValoTheme;
 @Theme(ValoTheme.THEME_NAME)
 public class MainUI extends UI
 {
-    private VerticalLayout mainLayout;
-
     @Override
     protected void init(VaadinRequest request)
     {
-        //
-        mainLayout = new VerticalLayout();
-        mainLayout.setMargin(true);
-        mainLayout.setSpacing(true);
-        addHeader();
-        addCenter();
-        setContent(mainLayout);
-    }
-
-    private void addHeader()
-    {
-        HorizontalLayout header = new HorizontalLayout();
-        header.addComponent(new Label("Haulmont Hospital"));
-        mainLayout.addComponent(header);
-    }
-
-    private void addCenter()
-    {
+        VerticalLayout mainLayout = new VerticalLayout();
         VerticalLayout content = new VerticalLayout();
         VerticalLayout navBar = new VerticalLayout();
 
@@ -70,19 +51,10 @@ public class MainUI extends UI
             content.addComponent(new SpecializationForm());
         });
 
-        navBar.addComponents(doctorsFormBtn, patientsFormBtn, prescriptionstFormBtn, prescriptionPrioritiesFormBtn, specializations);
+        navBar.addComponents(new Label("Haulmont Hospital"), doctorsFormBtn, patientsFormBtn, prescriptionstFormBtn, prescriptionPrioritiesFormBtn, specializations);
         HorizontalLayout center = new HorizontalLayout();
-        content.setSizeFull();
         center.addComponents(navBar, content);
         mainLayout.addComponent(center);
-    }
-
-    private void addFooter()
-    {
-        HorizontalLayout footer = new HorizontalLayout();
-        Label footerText = new Label("Author: Dmitrii Mikhailov");
-        footer.addComponent(footerText);
-        footer.setComponentAlignment(footerText,  Alignment.TOP_RIGHT);
-        mainLayout.addComponent(footer);
+        setContent(mainLayout);
     }
 }

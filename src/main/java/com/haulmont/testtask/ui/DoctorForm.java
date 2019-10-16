@@ -24,7 +24,8 @@ public class DoctorForm extends AbstractForm<Doctor>
     protected void generateTableObjects()
     {
         objectsGrid = new Grid<>(Doctor.class);
-        objectsGrid.setWidth("800px");
+        objectsGrid.setWidth("700px");
+        objectsGrid.setHeightByRows(10);
         objectsGrid.setItems(doctorDao.getAll());
         objectsGrid.addColumn(doctor -> doctor.getSpecialization().getName()).setCaption("").setId("");
         objectsGrid.setColumns(DoctorForm.DoctorColumn.FIRST_NAME.getName(), DoctorForm.DoctorColumn.LAST_NAME.getName(),

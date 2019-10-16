@@ -24,6 +24,7 @@ public class SpecializationForm extends AbstractForm<Specialization>
     protected void generateTableObjects()
     {
         objectsGrid = new Grid<>(Specialization.class);
+        objectsGrid.setSizeFull();
         objectsGrid.setHeightByRows(10);
         objectsGrid.setItems(specializationDao.getAll());
         objectsGrid.setColumns(SpecializationColumn.NAME.getName());

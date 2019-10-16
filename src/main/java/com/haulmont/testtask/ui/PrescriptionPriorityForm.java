@@ -23,7 +23,8 @@ public class PrescriptionPriorityForm extends AbstractForm<PrescriptionPriority>
     protected void generateTableObjects()
     {
         objectsGrid = new Grid<>(PrescriptionPriority.class);
-        objectsGrid.setWidth("800px");
+        objectsGrid.setSizeFull();
+        objectsGrid.setHeightByRows(10);
         objectsGrid.setItems(prescriptionPriorityDao.getAll());
         objectsGrid.removeColumn(PrescriptionColumn.ID.getName());
         objectsGrid.setColumns(PrescriptionColumn.NAME.getName());

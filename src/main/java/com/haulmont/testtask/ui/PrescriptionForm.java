@@ -31,7 +31,7 @@ public class PrescriptionForm extends AbstractForm<Prescription>
     protected void generateTableObjects()
     {
         objectsGrid = new Grid<>(Prescription.class);
-        objectsGrid.setWidthUndefined();
+        objectsGrid.setWidth("1000px");
         objectsGrid.setHeightByRows(10);
         Collection<Prescription> prescriptions = prescriptionDao.getAll();
         ListDataProvider<Prescription> dataProvider = new ListDataProvider<>(prescriptions);

@@ -24,7 +24,8 @@ public class PatientForm extends AbstractForm<Patient>
     protected void generateTableObjects()
     {
         objectsGrid = new Grid<>(Patient.class);
-        objectsGrid.setWidth("800px");
+        objectsGrid.setWidth("700px");
+        objectsGrid.setHeightByRows(10);
         objectsGrid.setItems(patientDao.getAll());
         objectsGrid.setColumns(PatientColumn.FIRST_NAME.getName(), PatientColumn.LAST_NAME.getName(),
                 PatientColumn.PATRONYMIC.getName(), PatientColumn.PHONE.getName());
